@@ -38,6 +38,7 @@ export const App: React.FC = () => {
             <Route path="/playground" element={<PlaygroundPage />} />
             <Route path="/vscode" element={<VSCodePage />} />
             <Route path="/novedades" element={<ChangelogPage />} />
+            <Route path="*" element={<HomePage />} />
           </Routes>
         </main>
         <Footer />
