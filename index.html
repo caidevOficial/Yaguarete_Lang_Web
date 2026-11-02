@@ -1,30 +1,56 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light dark" />
-    <script>
-      try {
-        document.querySelector('meta[name="color-scheme"]').content =
-          localStorage.getItem("color-scheme") ?? "light dark";
-      } catch {}
-    </script>
-    <title>Bienvenido a Yaguareté.org — Lenguaje de Programación en Español Fuertemente Tipado</title>
-    <meta
-      name="description"
-      content="Sitio oficial del lenguaje de programación YAGUARETÉ (.yaguarete). Pseudocódigo en español fuertemente tipado con motor nativo en Rust (<1 ms), consola REPL, depurador DAP y extensión oficial para VS Code."
-    />
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content =
+        localStorage.getItem("color-scheme") ?? "light dark";
+    } catch { }
+  </script>
+  <title>Bienvenido a Yaguareté — Lenguaje de Programación en Español Fuertemente Tipado</title>
+  <meta name="title" content="Bienvenido a Yaguareté — Lenguaje de Programación en Español Fuertemente Tipado" />
+  <meta name="description"
+    content="Sitio oficial del lenguaje de programación YAGUARETÉ (.yaguarete). Pseudocódigo en español fuertemente tipado con motor nativo en Rust (<1 ms), consola REPL, depurador DAP y extensión oficial para VS Code." />
+  <meta name="keywords" content="yaguarete, lenguaje de programacion, español, pseudocodigo, tipado estatico, rust, repl, vs code" />
+  <meta name="author" content="caidevOficial" />
+  <meta name="theme-color" content="#0066ff" />
+
+  <!-- Open Graph / Facebook / Discord / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://caidevoficial.github.io/Yaguarete_Lang_Web/" />
+  <meta property="og:site_name" content="Yaguareté.org" />
+  <meta property="og:title" content="Bienvenido a Yaguareté — Lenguaje de Programación en Español Fuertemente Tipado" />
+  <meta property="og:description"
+    content="Sitio oficial del lenguaje de programación YAGUARETÉ (.yaguarete). Pseudocódigo en español fuertemente tipado con motor nativo en Rust (<1 ms), consola REPL, depurador DAP y extensión oficial para VS Code." />
+  <meta property="og:image" content="https://caidevoficial.github.io/Yaguarete_Lang_Web/og-image.png" />
+  <meta property="og:image:secure_url" content="https://caidevoficial.github.io/Yaguarete_Lang_Web/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="YAGUARETÉ — Lenguaje de Programación en Español Fuertemente Tipado" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://caidevoficial.github.io/Yaguarete_Lang_Web/" />
+  <meta name="twitter:title" content="Bienvenido a Yaguareté — Lenguaje de Programación en Español Fuertemente Tipado" />
+  <meta name="twitter:description"
+    content="Sitio oficial del lenguaje de programación YAGUARETÉ (.yaguarete). Pseudocódigo en español fuertemente tipado con motor nativo en Rust (<1 ms), consola REPL, depurador DAP y extensión oficial para VS Code." />
+  <meta name="twitter:image" content="https://caidevoficial.github.io/Yaguarete_Lang_Web/og-image.png" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@600;700;800&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
