@@ -19,6 +19,8 @@ import {
   formatReplVariablesTable,
   VariableEntry,
 } from '../utils/yaguareteInterpreter';
+import { YaguareteEditor } from './YaguareteEditor';
+import { highlightYaguareteLine } from '../utils/syntaxHighlighter';
 
 interface InteractivePlaygroundProps {
   initialCode?: string;
@@ -378,20 +380,21 @@ export const InteractivePlayground: React.FC<InteractivePlaygroundProps> = ({
       {/* Main Content Area */}
       {mode === 'editor' ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-800">
-          {/* Left: Editable Code Area */}
+          {/* Left: Editable Code Area with Real-time VS Code Syntax Highlighting */}
           <div className="lg:col-span-7 flex flex-col">
             <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-              <span className="font-mono text-sky-400">algoritmo.yaguarete</span>
-              <span>Tipado Estático • UTF-8</span>
+              <span className="font-mono text-sky-400 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                algoritmo.yaguarete
+              </span>
+              <span className="text-[10px] text-slate-500 font-mono">
+                Sintaxis Oficial VS Code (TextMate) • Tab = 4 espacios
+              </span>
             </div>
-            <textarea
+            <YaguareteEditor
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              spellCheck={false}
-              aria-label="Editor de código YAGUARETÉ"
-              className={`code-surface w-full p-4 font-mono text-sm leading-relaxed text-slate-100 bg-[#070b14] outline-none resize-y ${
-                compact ? 'min-h-[300px]' : 'min-h-[420px]'
-              }`}
+              onChange={(newCode) => setCode(newCode)}
+              minHeight={compact ? '320px' : '440px'}
             />
           </div>
 
@@ -477,22 +480,39 @@ export const InteractivePlayground: React.FC<InteractivePlaygroundProps> = ({
         /* REPL Interactive Mode */
         <div className="p-4 bg-[#050811] font-mono text-sm">
           <div className="h-80 overflow-y-auto space-y-1.5 pb-3">
-            {replHistory.map((entry, idx) => (
-              <div
-                key={idx}
-                className={`whitespace-pre-wrap ${
-                  entry.type === 'meta'
-                    ? 'text-slate-400'
-                    : entry.type === 'input'
-                    ? 'text-sky-300 font-semibold'
-                    : entry.type === 'error'
-                    ? 'text-rose-400'
-                    : 'text-emerald-300'
-                }`}
-              >
-                {entry.text}
-              </div>
-            ))}
+            {replHistory.map((entry, idx) => {
+              if (entry.type === 'input') {
+                const promptMatch = entry.text.match(/^(\s*(?:yaguarete>|\.\.\.)\s*)(.*)$/);
+                if (promptMatch) {
+                  const prompt = promptMatch[1];
+                  const codePart = promptMatch[2];
+                  return (
+                    <div key={idx} className="whitespace-pre flex flex-wrap items-baseline">
+                      <span className="text-cyan-400 font-bold select-none mr-2 font-mono">
+                        {prompt}
+                      </span>
+                      <span className="font-mono">
+                        {highlightYaguareteLine(codePart)}
+                      </span>
+                    </div>
+                  );
+                }
+              }
+              return (
+                <div
+                  key={idx}
+                  className={`whitespace-pre-wrap font-mono ${
+                    entry.type === 'meta'
+                      ? 'text-slate-400'
+                      : entry.type === 'error'
+                      ? 'text-rose-400'
+                      : 'text-emerald-300'
+                  }`}
+                >
+                  {entry.text}
+                </div>
+              );
+            })}
             <div ref={replEndRef} />
           </div>
 
