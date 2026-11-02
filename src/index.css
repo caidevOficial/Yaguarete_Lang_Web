@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Electric Blue & Cyber Cyan Tokens */
+  --brand-primary-light: #0055d4;
+  --brand-primary-dark: #0066ff;
+  --brand-cyan-light: #0099cc;
+  --brand-cyan-dark: #00d4ff;
+  --brand-sky-light: #0284c7;
+  --brand-sky-dark: #38bdf8;
+
+  /* Surface & Text Fallbacks (Light Default) */
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-header: #0b1120;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-subtle: #e2e8f0;
+  --accent-color: var(--brand-primary-light);
+  --accent-cyan: var(--brand-cyan-light);
+
+  /* Code block dedicated dark tokens */
+  --code-bg: #080c14;
+  --code-surface: #0d1424;
+  --code-text: #e2e8f0;
+  --code-border: #1e293b;
+
+  /* MANDATORY Fallback for browsers without light-dark() support */
+  @media (prefers-color-scheme: dark) {
+    --bg-page: #080c14;
+    --bg-surface: #0f172a;
+    --bg-surface-elevated: #162038;
+    --bg-header: #060911;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-subtle: #1e293b;
+    --accent-color: var(--brand-cyan-dark);
+    --accent-cyan: var(--brand-cyan-dark);
+  }
+
+  /* Progressive enhancement with light-dark() */
+  @supports (color: light-dark(white, black)) {
+    --bg-page: light-dark(#f8fafc, #080c14);
+    --bg-surface: light-dark(#ffffff, #0f172a);
+    --bg-surface-elevated: light-dark(#f1f5f9, #162038);
+    --bg-header: light-dark(#0b1120, #060911);
+    --text-primary: light-dark(#0f172a, #f1f5f9);
+    --text-secondary: light-dark(#475569, #94a3b8);
+    --text-muted: light-dark(#64748b, #64748b);
+    --border-subtle: light-dark(#cbd5e1, #1e293b);
+    --accent-color: light-dark(var(--brand-primary-light), var(--brand-cyan-dark));
+    --accent-cyan: light-dark(var(--brand-cyan-light), var(--brand-cyan-dark));
+  }
+
+  /* MANDATORY: Keep base declaration light dark and map <meta name="color-scheme"> back to CSS */
+  color-scheme: light dark;
+  accent-color: var(--accent-color);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+    --bg-page: #080c14;
+    --bg-surface: #0f172a;
+    --bg-surface-elevated: #162038;
+    --bg-header: #060911;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border-subtle: #1e293b;
+    --accent-color: var(--brand-cyan-dark);
+    --accent-cyan: var(--brand-cyan-dark);
+  }
+
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+    --bg-page: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #f1f5f9;
+    --bg-header: #0b1120;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --border-subtle: #cbd5e1;
+    --accent-color: var(--brand-primary-light);
+    --accent-cyan: var(--brand-cyan-light);
+  }
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.6;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+}
+
+/* Component-specific dark mode for code blocks & REPL */
+pre,
+code,
+.code-surface {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color-scheme: only dark;
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  accent-color: var(--accent-color);
+}
+
+/* Inline code badges inside prose */
+.inline-code {
+  font-family: 'JetBrains Mono', monospace;
+  color-scheme: only dark;
+  background-color: #0f172a;
+  color: #38bdf8;
+  accent-color: var(--accent-color);
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.375rem;
+  font-size: 0.85em;
+  border: 1px solid #1e293b;
+}
+
+/* Native <dialog> light-dismiss backdrop styling */
+dialog.search-dialog {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  padding: 0;
+  max-width: 44rem;
+  width: calc(100% - 2rem);
+  margin: 4rem auto auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 30px rgba(0, 102, 255, 0.25);
+}
+
+dialog.search-dialog::backdrop {
+  background-color: rgba(6, 9, 17, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+/* Responsive Data Tables with Container Queries & Sticky Headers */
+.table-wrapper {
+  overflow: auto;
+  max-inline-size: 100%;
+  max-block-size: min(560px, 80vh);
+  container-type: inline-size;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  background-color: var(--bg-surface);
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 0.925rem;
+}
+
+.table-wrapper caption {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.table-wrapper thead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background-color: var(--bg-surface-elevated);
+}
+
+.table-wrapper thead th {
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.table-wrapper tbody tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.table-wrapper tbody th {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  background-color: var(--bg-surface);
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.table-wrapper tbody td {
+  padding: 0.85rem 1rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+@container (width < 600px) {
+  .table-wrapper table,
+  .table-wrapper thead,
+  .table-wrapper tbody,
+  .table-wrapper tr,
+  .table-wrapper th,
+  .table-wrapper td {
+    display: block;
+  }
+
+  .table-wrapper thead {
+    /* MANDATORY: Hide column header from layout and screen readers */
+    display: none;
+  }
+
+  .table-wrapper tbody tr {
+    margin-block-end: 1rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .table-wrapper tbody th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .table-wrapper td:nth-child(2)::before {
+    content: var(--label-2, "Detalle") ": ";
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .table-wrapper td:nth-child(3)::before {
+    content: var(--label-3, "Descripción") ": ";
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .table-wrapper td:nth-child(4)::before {
+    content: var(--label-4, "Ejemplo") ": ";
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
+/* Custom Electric Blue Glow Effects */
+.yaguarete-hero-gradient {
+  background: radial-gradient(circle at 20% 20%, rgba(0, 102, 255, 0.22) 0%, transparent 50%),
+              radial-gradient(circle at 80% 30%, rgba(0, 212, 255, 0.16) 0%, transparent 50%),
+              linear-gradient(180deg, #060911 0%, #0b1325 60%, #080c14 100%);
+}
+
+.cyber-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cyber-card:hover {
+  border-color: #0066ff;
+  box-shadow: 0 10px 30px -10px rgba(0, 102, 255, 0.25);
+}
