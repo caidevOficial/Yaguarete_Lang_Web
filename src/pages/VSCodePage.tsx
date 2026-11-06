@@ -100,7 +100,7 @@ export const VSCodePage: React.FC = () => {
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-bold shadow-lg shadow-blue-600/30"
                 >
                   <Download className="w-4 h-4" />
-                  Descargar Paquete VSIX v0.1.1 ({DOWNLOAD_ASSETS.vscodeExtension.size})
+                  Descargar Paquete VSIX v0.1.2 ({DOWNLOAD_ASSETS.vscodeExtension.size})
                 </a>
               </div>
             </div>
@@ -114,7 +114,7 @@ export const VSCodePage: React.FC = () => {
                 className="w-28 h-28 mx-auto rounded-2xl object-contain"
               />
               <div className="font-display font-bold text-lg">yaguarete-language-support</div>
-              <div className="text-xs text-sky-400 font-mono">Versión 0.1.1 • Publisher: yaguarete</div>
+              <div className="text-xs text-sky-400 font-mono">Versión 0.1.2 • Publisher: yaguarete</div>
             </div>
           </div>
         </div>

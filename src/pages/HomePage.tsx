@@ -117,7 +117,7 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-5 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/20 border border-sky-400/30 text-xs font-semibold text-sky-300">
                 <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                Identidad Oficial "Jaguar Gamer" • v0.1.1
+                Identidad Oficial "Jaguar Gamer" • v0.1.2
               </div>
 
               <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
@@ -273,7 +273,7 @@ export const HomePage: React.FC = () => {
         <InteractivePlayground compact={true} />
       </section>
 
-      {/* RUST ENGINE v0.1.1 BENCHMARK & FEATURES GRID */}
+      {/* RUST ENGINE v0.1.2 BENCHMARK & FEATURES GRID */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left: Performance Metrics */}

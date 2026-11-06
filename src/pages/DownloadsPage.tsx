@@ -89,7 +89,7 @@ export const DownloadsPage: React.FC = () => {
                 className="w-52 h-52 sm:w-60 sm:h-60 rounded-xl object-contain mx-auto drop-shadow-[0_0_25px_rgba(0,180,255,0.35)]"
               />
               <div className="mt-4 text-center text-xs text-slate-400">
-                Asistente Todo-en-Uno Dark Electric Blue (<code className="text-sky-300">~5.05 MB</code>)
+                Asistente Todo-en-Uno Dark Electric Blue (<code className="text-sky-300">{DOWNLOAD_ASSETS.windowsInstaller.size}</code>)
               </div>
             </div>
           </div>
@@ -364,7 +364,7 @@ export const DownloadsPage: React.FC = () => {
             </thead>
             <tbody>
               {RELEASES_HISTORY.map((rel) => {
-                const isStable = rel.version === '0.1.1';
+                const isStable = rel.version === '0.1.2';
                 return (
                   <tr key={rel.version}>
                     <th>

@@ -39,7 +39,7 @@ export const DocsPage: React.FC = () => {
           <div className="sticky top-28 cyber-card rounded-2xl p-5 space-y-4">
             <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-blue-500">
               <BookOpen className="w-4 h-4" />
-              Índice de Referencia v0.1.1
+              Índice de Referencia v0.1.2
             </div>
             <nav aria-label="Tabla de contenidos de documentación" className="space-y-1 text-sm">
               {sections.map((sec) => (

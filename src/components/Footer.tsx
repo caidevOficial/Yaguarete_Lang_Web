@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
                   YAGUARETÉ
                 </span>
                 <span className="ml-2 text-xs px-2 py-0.5 rounded bg-blue-600/30 text-cyan-300 border border-cyan-500/30">
-                  v0.1.1
+                  v0.1.2
                 </span>
               </div>
             </div>

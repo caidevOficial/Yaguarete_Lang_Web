@@ -12,7 +12,7 @@
 
 ## ✨ Características del Portal Web
 
-- 🐆 **Identidad Oficial "Jaguar Gamer" & Electric Blue (`v0.1.1`)**: Paleta cibernética (`#080c14`, `#0f172a`, `#0066ff`, `#00d4ff`) con soporte nativo de modo Claro/Oscuro (`color-scheme` y `light-dark()`).
+- 🐆 **Identidad Oficial "Jaguar Gamer" & Electric Blue (`v0.1.2`)**: Paleta cibernética (`#080c14`, `#0f172a`, `#0066ff`, `#00d4ff`) con soporte nativo de modo Claro/Oscuro (`color-scheme` y `light-dark()`).
 - 🎠 **Carrusel Interactivo de Código en el Hero (estilo `python.org`)**: 5 diapositivas numeradas (`1..5`) con resaltado de sintaxis oficial de YAGUARETÉ y ejecución en un clic.
 - 💻 **Playground Interactivo y Consola REPL en el Navegador**:
   - **Editor `.yaguarete`**: Ejecuta programas completos en el navegador (`yaguarete run --time`) con soporte para estructuras (`ESTRUCTURA`), referencias nulas (`NULO`), matrices bidimensionales, división entera (`//`), módulo (`%`) y archivos virtuales (`ARCHIVO`), además de verificador estático (`yaguarete check`).
@@ -25,6 +25,6 @@
   - **Documentación (`/#/documentacion`)**: Especificación completa del sistema de tipos (`FLOTANTE` vs `REAL`), arreglos, estructuras, punteros `NULO`, operadores y CLI.
   - **Ejemplos y Recetas (`/#/ejemplos`)**: Algoritmos reales ejecutables en el navegador (`ejemplo_completo.yaguarete`, `lista_enlazada.yaguarete`, `matrices.yaguarete`, `sort.yaguarete`).
   - **Extensión VS Code (`/#/vscode`)**: Guía de IntelliSense prioritario, diagnósticos LSP en `<0.2 ms` y depurador interactivo DAP con breakpoints.
-  - **Novedades (`/#/novedades`)**: Historial de lanzamientos SemVer (`v0.1.1`, `v0.1.0-rc.3`, `v0.1.0-rc.2`, `v0.1.0-rc.1`, `v0.1.0-beta.1`, `v0.1.0-alpha.1`) y resumen arquitectónico `ADR-001`.
+  - **Novedades (`/#/novedades`)**: Historial de lanzamientos SemVer (`v0.1.2`, `v0.1.1`, `v0.1.0-rc.3`, `v0.1.0-rc.2`, `v0.1.0-rc.1`, `v0.1.0-beta.1`, `v0.1.0-alpha.1`) y resumen arquitectónico `ADR-001`.
 
 ---

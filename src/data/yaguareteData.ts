@@ -47,8 +47,8 @@ export const DOWNLOAD_ASSETS = {
   windowsInstaller: {
     name: 'Instalador_Yaguarete.exe',
     label: 'Instalador Gráfico Todo-en-Uno (Windows x64)',
-    version: '0.1.1',
-    size: '~5.05 MB',
+    version: '0.1.2',
+    size: '~7.8 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/Instalador_Yaguarete.exe`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
@@ -58,44 +58,44 @@ export const DOWNLOAD_ASSETS = {
   windowsBinary: {
     name: 'yaguarete.exe',
     label: 'Binario CLI Autónomo (Windows PE x64)',
-    version: '0.1.1',
-    size: '~830 KB',
+    version: '0.1.2',
+    size: '~2.4 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete.exe`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description: 'Ejecutable nativo compilado en Rust sin dependencias externas ni runtime.',
   },
   linuxDeb: {
-    name: 'yaguarete_0.1.1_amd64.deb',
+    name: 'yaguarete_0.1.2_amd64.deb',
     label: 'Paquete Nativo Debian / Ubuntu (.deb)',
-    version: '0.1.1',
-    size: '~4.1 MB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete_0.1.1_amd64.deb`,
+    version: '0.1.2',
+    size: '~3.3 MB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete_0.1.2_amd64.deb`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Para Ubuntu, Debian, Linux Mint, Pop!_OS y Kali Linux. Instala /usr/bin/yaguarete, registra el tipo MIME application/x-yaguarete e iconos del sistema.',
-    installCommand: 'sudo apt install ./yaguarete_0.1.1_amd64.deb',
+    installCommand: 'sudo apt install ./yaguarete_0.1.2_amd64.deb',
   },
   linuxTar: {
-    name: 'yaguarete-0.1.1-linux-x86_64.tar.gz',
+    name: 'yaguarete-0.1.2-linux-x86_64.tar.gz',
     label: 'Tarball Portable Universal Linux (.tar.gz)',
-    version: '0.1.1',
-    size: '~2.2 MB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-0.1.1-linux-x86_64.tar.gz`,
+    version: '0.1.2',
+    size: '~3.5 MB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-0.1.2-linux-x86_64.tar.gz`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Compatible con cualquier distribución (Arch, Fedora, openSUSE, Alpine). Incluye script install.sh para usuario (~/.local/bin) o global.',
-    installCommand: 'tar -xzf yaguarete-0.1.1-linux-x86_64.tar.gz && cd yaguarete-0.1.1-linux-x64 && ./install.sh',
+    installCommand: 'tar -xzf yaguarete-0.1.2-linux-x86_64.tar.gz && cd yaguarete-0.1.2-linux-x86_64 && ./install.sh',
   },
   vscodeExtension: {
-    name: 'yaguarete-language-support-0.1.1.vsix',
+    name: 'yaguarete-language-support-0.1.2.vsix',
     label: 'Extensión Oficial VS Code / Antigravity / Cursor (.vsix)',
-    version: '0.1.1',
-    size: '~796 KB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-language-support-0.1.1.vsix`,
+    version: '0.1.2',
+    size: '~778 KB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-language-support-0.1.2.vsix`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Tema de iconos "Jaguar Gamer", gramática TextMate avanzada, IntelliSense prioritario, diagnósticos LSP en <0.2 ms, depurador DAP con breakpoints y consola REPL.',
-    installCommand: 'code --install-extension yaguarete-language-support-0.1.1.vsix --force',
+    installCommand: 'code --install-extension yaguarete-language-support-0.1.2.vsix --force',
   },
 };
 
@@ -280,7 +280,7 @@ FIN`,
 
     // Escritura de informe de salida
     ARCHIVO salida = ABRIR_ARCHIVO("resultados.txt", "escritura")
-    salida.ESCRIBIR_LINEA("INFORME FINAL YAGUARETÉ v0.1.1")
+    salida.ESCRIBIR_LINEA("INFORME FINAL YAGUARETÉ v0.1.2")
     salida.ESCRIBIR_LINEA("Total liquidado: $1940000.00")
     salida.CERRAR_ARCHIVO()
 FIN`,
@@ -289,7 +289,7 @@ FIN`,
       'Registro: ID:101 | Lucía Mendez | Analista Senior | $580000.00',
       'Registro: ID:102 | Martín Palermo | Arquitecto Rust | $720000.00',
       'Registro: ID:103 | Julieta Rossi | Ing. de Datos | $640000.00',
-      '[ARCHIVO resultados.txt] << INFORME FINAL YAGUARETÉ v0.1.1',
+      '[ARCHIVO resultados.txt] << INFORME FINAL YAGUARETÉ v0.1.2',
       '[ARCHIVO resultados.txt] << Total liquidado: $1940000.00',
     ],
   },
@@ -391,9 +391,9 @@ export const OPERATORS_TABLE = [
   },
   {
     operator: 'Y  O  NO',
-    operation: 'Operadores lógicos booleanos en español',
+    operation: 'Operadores lógicos booleanos en español (evaluación en cortocircuito en Y / O)',
     returnType: 'BOOLEANO',
-    example: 'MIENTRAS NO archivo.findearchivo',
+    example: 'MIENTRAS (j >= 0 Y vector[j] > key) | NO archivo.findearchivo',
   },
 ];
 
@@ -685,7 +685,7 @@ FIN`,
     highlights: [
       'Partición de 3 vías que evita degradación O(N²) con elementos repetidos',
       'Concatenación directa de vectores tipados: RETORNAR (menores + iguales + mayores)',
-      '300x más veloz en el motor nativo Rust v0.1.1 (<1 ms)',
+      '300x más veloz en el motor nativo Rust v0.1.2 (<1 ms)',
     ],
     code: `// Archivo: sort.yaguarete (Versión demostrativa interactiva)
 FUNCION ordenar_vector_asc_quick(vector[]: ENTERO): ENTERO[]
@@ -746,6 +746,34 @@ FIN`,
 ];
 
 export const RELEASES_HISTORY: ReleaseEntry[] = [
+  {
+    version: '0.1.2',
+    date: '2026-11-05',
+    title: 'Evaluación en Cortocircuito de Operadores Lógicos (Y, O) e Instaladores Multiplataforma',
+    tag: 'Oficial',
+    highlights: [
+      {
+        section: '⚡ Motor de Ejecución y Lenguaje (yaguarete_core)',
+        items: [
+          'Evaluación en cortocircuito (short-circuit evaluation) nativa en eval.rs para los operadores lógicos booleanos Y y O.',
+          'Operador Y: Si el operando izquierdo evalúa a FALSO, el derecho no se evalúa, evitando excepciones en tiempo de ejecución.',
+          'Operador O: Si el operando izquierdo evalúa a VERDADERO, la evaluación concluye de forma inmediata.',
+          'Garantía de seguridad en arreglos y vectores: Condiciones compuestas como MIENTRAS (j >= 0 Y vector[j] > key) ahora se ejecutan de manera segura sin desbordamiento de índice.',
+          'Protección de punteros y estructuras: Validaciones como SI (nodo != NULO Y nodo.siguiente != NULO) previenen accesos a memoria o propiedades inválidas.',
+        ],
+      },
+      {
+        section: '📦 Sincronización del Ecosistema y Binarios Multiplataforma',
+        items: [
+          'Sincronización integral de versión a 0.1.2 en todos los crates de Rust (crates/yaguarete_core, crates/yaguarete_cli, crates/yaguarete_installer).',
+          'Metadatos de ejecutables Windows PE actualizados con ProductVersion y FileVersion 0.1.2.0.',
+          'Publicación oficial de instaladores Windows x64 (~7.8 MB), binarios CLI (~2.4 MB Windows / ~2.8 MB Linux), paquetes Debian/Ubuntu (.deb ~3.3 MB) y tarball portable (.tar.gz ~3.5 MB).',
+          'Extensión oficial para VS Code, Antigravity IDE y Cursor actualizada a v0.1.2 (yaguarete-language-support-0.1.2.vsix ~778 KB).',
+          'Actualización de la suite de pruebas canónicas con cobertura exhaustiva para evaluación de cortocircuito en estructuras de control.',
+        ],
+      },
+    ],
+  },
   {
     version: '0.1.1',
     date: '2026-10-30',
@@ -925,7 +953,7 @@ export const SEARCHABLE_DOCS: DocSearchResult[] = [
     category: 'VS Code & DAP',
     summary:
       'Soporte nativo de puntos de interrupción (Breakpoints), Step Over/Into/Out, inspección de estructuras y diagnóstico lsp-check en <0.2 ms.',
-    syntax: 'code --install-extension yaguarete-language-support-0.1.1.vsix --force',
+    syntax: 'code --install-extension yaguarete-language-support-0.1.2.vsix --force',
     route: '/vscode',
   },
 ];

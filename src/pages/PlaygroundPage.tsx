@@ -13,7 +13,7 @@ export const PlaygroundPage: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/15 text-blue-500 text-xs font-bold">
             <Sparkles className="w-3.5 h-3.5" />
-            Entorno de Ejecución en el Navegador • YAGUARETÉ v0.1.1
+            Entorno de Ejecución en el Navegador • YAGUARETÉ v0.1.2
           </div>
           <h1 className="font-display text-3xl font-extrabold mt-2 flex items-center gap-2.5">
             <Terminal className="w-7 h-7 text-cyan-400" />

@@ -47,7 +47,7 @@ export const InteractivePlayground: React.FC<InteractivePlaygroundProps> = ({
   >([
     {
       type: 'meta',
-      text: 'YAGUARETÉ (v0.1.1) — Motor Interactivo Web',
+      text: 'YAGUARETÉ (v0.1.2) — Motor Interactivo Web',
     },
     {
       type: 'meta',
@@ -350,7 +350,7 @@ export const InteractivePlayground: React.FC<InteractivePlaygroundProps> = ({
                 runQuickReplSample([
                   'ENTERO edad = 25',
                   'edad * 2',
-                  'CADENA lenguaje = "YAGUARETÉ v0.1.1"',
+                  'CADENA lenguaje = "YAGUARETÉ v0.1.2"',
                   ':variables',
                 ])
               }
@@ -365,7 +365,7 @@ export const InteractivePlayground: React.FC<InteractivePlaygroundProps> = ({
                 replStateRef.current = { vars: new Map(), structs: new Map(), funcs: new Map() };
                 setMultilineBuffer([]);
                 setReplHistory([
-                  { type: 'meta', text: 'YAGUARETÉ (v0.1.1) — Sesión REPL limpia.' },
+                  { type: 'meta', text: 'YAGUARETÉ (v0.1.2) — Sesión REPL limpia.' },
                 ]);
               }}
               className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-slate-300 flex items-center gap-1 cursor-pointer"

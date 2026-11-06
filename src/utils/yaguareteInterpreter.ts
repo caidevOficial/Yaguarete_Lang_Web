@@ -33,7 +33,7 @@ const VIRTUAL_FILES: Record<string, string[]> = {
     'ID:103 | Julieta Rossi | Ing. de Datos | $640000.00',
   ],
   'datos.txt': [
-    'Línea 1: Configuración inicial YAGUARETÉ v0.1.1',
+    'Línea 1: Configuración inicial YAGUARETÉ v0.1.2',
     'Línea 2: Motor nativo Rust activado (<1 ms)',
     'Línea 3: Fin de registro de prueba',
   ],
