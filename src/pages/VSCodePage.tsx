@@ -11,7 +11,7 @@ import {
   Check,
   Palette,
 } from 'lucide-react';
-import { DOWNLOAD_ASSETS } from '../data/yaguareteData';
+import { DOWNLOAD_ASSETS, YAGUARETE_VERSION } from '../data/yaguareteData';
 import { YaguareteCodeBlock } from '../utils/syntaxHighlighter';
 
 export const VSCodePage: React.FC = () => {
@@ -26,15 +26,15 @@ export const VSCodePage: React.FC = () => {
   const features = [
     {
       icon: Palette,
-      title: 'Tema de Iconos "Jaguar Gamer" & Gramática TextMate',
+      title: 'Tema de Iconos "Jaguar Gamer" & Gramática TextMate v0.2.0',
       description:
-        'Iconos dedicados azul eléctrico para módulos .yaguarete en el explorador de archivos y coloreado distintivo verde menta/turquesa (entity.name.type.struct.yaguarete) para tipos ESTRUCTURA en parámetros, retornos y vectores.',
+        'Iconos dedicados azul eléctrico para módulos .yaguarete, scopes dedicados para cadenas, conversión, matemáticas (MIN, MAX, REDONDEAR) y constante PI, además de verde menta/turquesa para tipos ESTRUCTURA sin colisiones con built-ins.',
     },
     {
       icon: Sparkles,
-      title: 'IntelliSense Prioritario Multi-Módulo y SignatureHelp',
+      title: 'IntelliSense Prioritario Multi-Módulo y SignatureHelp Completo',
       description:
-        'Autocompletado instantáneo de funciones, procedimientos y variables locales con ordenamiento prioritario (sortText = 0_) e indexación en todos los archivos .yaguarete del workspace. Ayuda de firma en tiempo real al escribir ( o ,.',
+        'Autocompletado instantáneo y hover para todas las funciones v0.2.0 (LEER(mensaje), DIVIDIR_CADENA, A_ENTERO, PI, etc.) con ordenamiento prioritario (sortText = 0_) y ayuda de firma en tiempo real para todas las built-ins al escribir ( o ,.',
     },
     {
       icon: Zap,
@@ -100,7 +100,7 @@ export const VSCodePage: React.FC = () => {
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-bold shadow-lg shadow-blue-600/30"
                 >
                   <Download className="w-4 h-4" />
-                  Descargar Paquete VSIX v0.1.2 ({DOWNLOAD_ASSETS.vscodeExtension.size})
+                  Descargar Paquete VSIX v{YAGUARETE_VERSION} ({DOWNLOAD_ASSETS.vscodeExtension.size})
                 </a>
               </div>
             </div>
@@ -114,7 +114,7 @@ export const VSCodePage: React.FC = () => {
                 className="w-28 h-28 mx-auto rounded-2xl object-contain"
               />
               <div className="font-display font-bold text-lg">yaguarete-language-support</div>
-              <div className="text-xs text-sky-400 font-mono">Versión 0.1.2 • Publisher: yaguarete</div>
+              <div className="text-xs text-sky-400 font-mono">Versión {YAGUARETE_VERSION} • Publisher: yaguarete</div>
             </div>
           </div>
         </div>

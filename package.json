@@ -1,7 +1,7 @@
 {
   "name": "yaguarete-lang-web",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Portal oficial del lenguaje de programación en español fuertemente tipado YAGUARETÉ (.yaguarete)",
   "type": "module",
   "scripts": {

@@ -68,6 +68,7 @@ const CONSTANTS = new Set([
   'None',
   'NONE',
   'nulo',
+  'PI',
 ]);
 
 const BUILTINS = new Set([
@@ -78,9 +79,25 @@ const BUILTINS = new Set([
   'CERRAR_ARCHIVO',
   'LEER_LINEA',
   'ESCRIBIR_LINEA',
+  'MAYUSCULAS',
+  'MINUSCULAS',
+  'RECORTAR',
+  'DIVIDIR_CADENA',
+  'A_ENTERO',
+  'A_REAL',
+  'A_FLOTANTE',
+  'A_CADENA',
+  'A_BOOLEANO',
   'ESPAR',
   'ESIMPAR',
   'MOD',
+  'POTENCIA',
+  'RAIZCUADRADA',
+  'ABS',
+  'ALEATORIO',
+  'MIN',
+  'MAX',
+  'REDONDEAR',
   'largo',
   'findearchivo',
 ]);
@@ -122,7 +139,7 @@ export function highlightYaguareteLine(
 
   const nodes: React.ReactNode[] = [];
   // Tokenize while capturing strings, comments, identifiers, properties with dot, numbers, and symbols
-  const regex = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\/\/.*$|#.*$|\.[A-Za-z_][A-Za-z0-9_]*|\b[A-Za-z_áéíóúÁÉÍÓÚñÑ][A-Za-z0-9_áéíóúÁÉÍÓÚñÑ]*\b|\b\d+(?:\.\d+)?\b|\/\/|[+\-*/%=<>!:]+|[[\](){}.,;]|\s+)/g;
+  const regex = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\/\/.*$|#.*$|\.[A-Za-z_][A-Za-z0-9_]*|\b[A-Za-z_áéíóúÁÉÍÓÚñÑ][A-Za-z0-9_áéíóúÁÉÍÓÚñÑ]*\b|\b\d+(?:\.\d+)?\b|\/\/|[+\-*/%^=<>!:]+|[[\](){}.,;]|\s+)/g;
 
   let match: RegExpExecArray | null;
   let idx = 0;
@@ -228,7 +245,7 @@ export function highlightYaguareteLine(
           {token}
         </span>
       );
-    } else if (BUILTINS.has(token) || customFuncs.has(token) || isCall) {
+    } else if (BUILTINS.has(token) || (isCall && BUILTINS.has(token.toUpperCase())) || customFuncs.has(token) || isCall) {
       // Function declaration or call (VS Code yellow)
       nodes.push(
         <span key={key} style={{ color: VSCODE_COLORS.functionName }}>

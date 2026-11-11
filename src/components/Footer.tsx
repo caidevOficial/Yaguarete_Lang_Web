@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Mail, ShieldCheck, Terminal, ExternalLink, Heart } from 'lucide-react';
-import { GITHUB_REPO_URL, GITHUB_RELEASES_URL } from '../data/yaguareteData';
+import { GITHUB_REPO_URL, GITHUB_RELEASES_URL, YAGUARETE_VERSION } from '../data/yaguareteData';
 
 export const Footer: React.FC = () => {
   return (
@@ -21,12 +21,12 @@ export const Footer: React.FC = () => {
                   YAGUARETÉ
                 </span>
                 <span className="ml-2 text-xs px-2 py-0.5 rounded bg-blue-600/30 text-cyan-300 border border-cyan-500/30">
-                  v0.1.2
+                  v{YAGUARETE_VERSION}
                 </span>
               </div>
             </div>
             <p className="text-sm text-slate-400 max-w-md leading-relaxed">
-              El lenguaje de programación de pseudocódigo en español fuertemente tipado, impulsado por un motor nativo en Rust (<code className="text-sky-300 bg-transparent">&lt;1 ms</code>) para el aprendizaje moderno de algoritmos, estructuras de datos y desarrollo de software.
+              El lenguaje de programación de pseudocódigo en español fuertemente tipado, impulsado por una Máquina Virtual Bytecode en Rust (<code className="text-sky-300 bg-transparent">&lt;1 ms</code>) para el aprendizaje moderno de algoritmos, estructuras de datos y desarrollo de software.
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <a
@@ -107,7 +107,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/documentacion#operadores" className="hover:text-white transition-colors">
-                  División Entera (//) y Módulo (%)
+                  Operadores (^, // y %)
                 </Link>
               </li>
               <li>

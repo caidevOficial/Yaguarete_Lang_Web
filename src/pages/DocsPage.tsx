@@ -15,6 +15,8 @@ import {
   OPERATORS_TABLE,
   BUILTINS_TABLE,
   CLI_COMMANDS,
+  YAGUARETE_VERSION,
+  BuiltinEntry,
 } from '../data/yaguareteData';
 import { YaguareteCodeBlock } from '../utils/syntaxHighlighter';
 
@@ -24,11 +26,18 @@ export const DocsPage: React.FC = () => {
     { id: 'tipos-primitivos', label: 'Sistema de Tipos Estático' },
     { id: 'vectores-matrices', label: 'Vectores y Matrices (.largo)' },
     { id: 'estructuras-datos', label: 'Estructuras y Tipo NULO' },
-    { id: 'operadores', label: 'Operadores (// y %)' },
+    { id: 'operadores', label: 'Operadores (^, // y %)' },
     { id: 'funciones-procedimientos', label: 'Funciones y Procedimientos' },
     { id: 'estructuras-control', label: 'Estructuras de Control' },
-    { id: 'funciones-incorporadas', label: 'Manejo de Archivos y Built-ins' },
-    { id: 'cli-comandos', label: 'Interfaz CLI y Motor Rust' },
+    { id: 'funciones-incorporadas', label: 'Built-ins, PI y Archivos' },
+    { id: 'cli-comandos', label: 'Interfaz CLI y Bytecode VM' },
+  ];
+
+  const builtinCategories: BuiltinEntry['category'][] = [
+    'Entrada / Salida y Archivos',
+    'Cadenas',
+    'Conversión de Tipos',
+    'Matemáticas y Constantes',
   ];
 
   return (
@@ -39,7 +48,7 @@ export const DocsPage: React.FC = () => {
           <div className="sticky top-28 cyber-card rounded-2xl p-5 space-y-4">
             <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-blue-500">
               <BookOpen className="w-4 h-4" />
-              Índice de Referencia v0.1.2
+              Índice de Referencia v{YAGUARETE_VERSION}
             </div>
             <nav aria-label="Tabla de contenidos de documentación" className="space-y-1 text-sm">
               {sections.map((sec) => (
@@ -70,7 +79,7 @@ export const DocsPage: React.FC = () => {
               Documentación Canónica de YAGUARETÉ
             </h1>
             <p className="text-(--text-secondary) leading-relaxed">
-              <strong>YAGUARETÉ</strong> es un lenguaje de programación de pseudocódigo en español, diseñado para combinar la intuición pedagógica del pseudocódigo clásico con el rigor técnico y la seguridad de un <strong>sistema de tipos estático y moderno</strong> ejecutado sobre un motor nativo en Rust (<code className="inline-code">&lt;1 ms</code>).
+              <strong>YAGUARETÉ</strong> es un lenguaje de programación de pseudocódigo en español, diseñado para combinar la intuición pedagógica del pseudocódigo clásico con el rigor técnico y la seguridad de un <strong>sistema de tipos estático y moderno</strong> ejecutado sobre un motor nativo en Rust y su Máquina Virtual Bytecode (<code className="inline-code">&lt;1 ms</code>).
             </p>
             <div className="p-4 rounded-xl bg-blue-600/10 border border-blue-500/30 flex items-start gap-3 text-sm">
               <AlertCircle className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
@@ -201,10 +210,10 @@ FIN`}
           <section id="operadores" className="scroll-mt-28 space-y-5">
             <h2 className="font-display text-2xl font-bold flex items-center gap-2">
               <Code2 className="w-6 h-6 text-sky-400" />
-              4. Operadores Aritméticos, División Entera (//) y Módulo (%)
+              4. Operadores Aritméticos, Potencia (^), División Entera (//) y Módulo (%)
             </h2>
             <p className="text-sm text-(--text-secondary)">
-              El analizador léxico de YAGUARETÉ desambigua inteligentemente <code className="inline-code">//</code>: actúa como <strong>división entera</strong> cuando se ubica entre dos operandos (incluso dentro de índices como <code className="inline-code">matriz[p // columnas][p % columnas]</code>) y como <strong>comentario</strong> al inicio de línea o tras código libre.
+              El analizador léxico de YAGUARETÉ desambigua inteligentemente <code className="inline-code">//</code> (división entera vs comentario) e incorpora en <code className="inline-code">v{YAGUARETE_VERSION}</code> el operador de potencia <code className="inline-code">^</code> (asociativo a derecha y con resultado <code className="inline-code">REAL</code>).
             </p>
             <div
               tabIndex={0}
@@ -286,52 +295,85 @@ FIN HACER`}
           </section>
 
           {/* 7. Archivos y Built-ins */}
-          <section id="funciones-incorporadas" className="scroll-mt-28 space-y-5">
-            <h2 className="font-display text-2xl font-bold flex items-center gap-2">
-              <FileText className="w-6 h-6 text-amber-400" />
-              6. Manejo de Archivos (ARCHIVO) y Funciones Incorporadas
-            </h2>
-            <div
-              tabIndex={0}
-              role="region"
-              aria-labelledby="builtins-table-caption"
-              className="table-wrapper"
-            >
-              <table
-                style={
-                  {
-                    '--label-2': '"Parámetros"',
-                    '--label-3': '"Retorno"',
-                    '--label-4': '"Descripción"',
-                  } as React.CSSProperties
-                }
-              >
-                <caption id="builtins-table-caption">
-                  Funciones Incorporadas (Built-ins) y Métodos de ARCHIVO
-                </caption>
-                <thead>
-                  <tr>
-                    <th>Función / Método</th>
-                    <th>Parámetros</th>
-                    <th>Retorno</th>
-                    <th>Descripción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {BUILTINS_TABLE.map((b, idx) => (
-                    <tr key={idx}>
-                      <th>
-                        <code className="inline-code font-bold">{b.fn}</code>
-                      </th>
-                      <td className="text-xs font-mono">{b.params}</td>
-                      <td>
-                        <code className="inline-code">{b.returns}</code>
-                      </td>
-                      <td>{b.description}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <section id="funciones-incorporadas" className="scroll-mt-28 space-y-6">
+            <div className="space-y-2">
+              <h2 className="font-display text-2xl font-bold flex items-center gap-2">
+                <FileText className="w-6 h-6 text-amber-400" />
+                6. Manejo de Archivos, Constante PI y Funciones Incorporadas
+              </h2>
+              <p className="text-sm text-(--text-secondary)">
+                Referencia completa de las funciones built-in disponibles en <strong>YAGUARETÉ v{YAGUARETE_VERSION}</strong> organizadas por categoría (E/S, cadenas, conversión de tipos y matemáticas).
+              </p>
+            </div>
+
+            {builtinCategories.map((cat, cIdx) => {
+              const items = BUILTINS_TABLE.filter((b) => b.category === cat);
+              const captionId = `builtins-caption-${cIdx}`;
+              return (
+                <div key={cat} className="space-y-3">
+                  <h3 className="font-display text-lg font-bold text-sky-400">{cat}</h3>
+                  <div
+                    tabIndex={0}
+                    role="region"
+                    aria-labelledby={captionId}
+                    className="table-wrapper"
+                  >
+                    <table
+                      style={
+                        {
+                          '--label-2': '"Parámetros"',
+                          '--label-3': '"Retorno"',
+                          '--label-4': '"Descripción"',
+                        } as React.CSSProperties
+                      }
+                    >
+                      <caption id={captionId}>{cat} en YAGUARETÉ v{YAGUARETE_VERSION}</caption>
+                      <thead>
+                        <tr>
+                          <th>Función / Símbolo</th>
+                          <th>Parámetros</th>
+                          <th>Retorno</th>
+                          <th>Descripción</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {items.map((b, idx) => (
+                          <tr key={idx}>
+                            <th>
+                              <code className="inline-code font-bold">{b.fn}</code>
+                            </th>
+                            <td className="text-xs font-mono">{b.params}</td>
+                            <td>
+                              <code className="inline-code">{b.returns}</code>
+                            </td>
+                            <td>{b.description}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              );
+            })}
+
+            <div className="space-y-2">
+              <h3 className="font-display text-lg font-bold">
+                Ejemplo v{YAGUARETE_VERSION}: <code className="inline-code">LEER</code> + <code className="inline-code">DIVIDIR_CADENA</code> + <code className="inline-code">A_ENTERO</code> + <code className="inline-code">PI</code>
+              </h3>
+              <YaguareteCodeBlock
+                code={`INICIO
+    CADENA linea = LEER("Ingrese números separados por coma: ")
+    CADENA partes[] = DIVIDIR_CADENA(linea, ",")
+    ENTERO suma = 0
+    PARA (ENTERO i = 0; i < partes.largo; i++)
+        suma = suma + A_ENTERO(RECORTAR(partes[i]))
+    FIN PARA
+    IMPRIMIR("Suma: " + A_CADENA(suma))
+
+    REAL area = PI * 5.0 ^ 2
+    IMPRIMIR("Área círculo r=5: " + REDONDEAR(area, 2))
+FIN`}
+              />
             </div>
           </section>
 
@@ -339,7 +381,7 @@ FIN HACER`}
           <section id="cli-comandos" className="scroll-mt-28 space-y-5">
             <h2 className="font-display text-2xl font-bold flex items-center gap-2">
               <Terminal className="w-6 h-6 text-emerald-400" />
-              7. Interfaz de Línea de Comandos (yaguarete)
+              7. Interfaz CLI, Bytecode VM (--engine) y Diagnóstico LSP
             </h2>
             <div className="grid grid-cols-1 gap-4">
               {CLI_COMMANDS.map((c, idx) => (

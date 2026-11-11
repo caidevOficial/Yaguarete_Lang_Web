@@ -28,7 +28,7 @@ export const ChangelogPage: React.FC = () => {
           <span className="text-xs font-mono text-emerald-400">Estado: Implementado y Certificado</span>
         </div>
         <p className="text-sm text-slate-300 leading-relaxed">
-          La reimplementación del núcleo en Rust (<code className="text-sky-300">crates/yaguarete_core</code>, <code className="text-sky-300">crates/yaguarete_cli</code> y <code className="text-sky-300">crates/yaguarete_installer</code>) redujo el tiempo de arranque en frío de ~250 ms a <strong>&lt;1 ms</strong>, aceleró algoritmos intensivos como Quicksort de 3.240 ms a <strong>1 ms</strong> (~300x más rápido) y redujo la huella de memoria de ~45 MB a <strong>&lt;5 MB de RAM</strong> manteniendo 100% de paridad con la suite de pruebas canónicas.
+          La reimplementación del núcleo en Rust (<code className="text-sky-300">crates/yaguarete_core</code>, <code className="text-sky-300">crates/yaguarete_cli</code> y <code className="text-sky-300">crates/yaguarete_installer</code>) redujo el tiempo de arranque en frío de ~250 ms a <strong>&lt;1 ms</strong> y redujo la huella de memoria a <strong>&lt;5 MB de RAM</strong>. En <strong>v0.2.0</strong> esta arquitectura evoluciona con la nueva <strong>Máquina Virtual Bytecode</strong> (<code className="text-sky-300">crates/yaguarete_core/src/vm/</code>) y optimizaciones en <code className="text-sky-300">eval.rs</code>, logrando hasta <strong>5,72x más velocidad</strong> en cargas intensivas (Selection Sort 10k en <strong>6,9 s</strong> frente a 39,5 s originales).
         </p>
       </div>
 

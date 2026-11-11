@@ -26,6 +26,17 @@ interface FuncDef {
   isProc: boolean;
 }
 
+export interface PersistentReplState {
+  vars: Map<string, VariableEntry>;
+  structs: Map<string, StructDef>;
+  funcs: Map<string, FuncDef>;
+}
+
+export interface RunYaguareteOptions {
+  persistentState?: PersistentReplState;
+  onReadInput?: (prompt: string) => string | null;
+}
+
 const VIRTUAL_FILES: Record<string, string[]> = {
   'nomina.txt': [
     'ID:101 | Lucía Mendez | Analista Senior | $580000.00',
@@ -33,11 +44,57 @@ const VIRTUAL_FILES: Record<string, string[]> = {
     'ID:103 | Julieta Rossi | Ing. de Datos | $640000.00',
   ],
   'datos.txt': [
-    'Línea 1: Configuración inicial YAGUARETÉ v0.1.2',
-    'Línea 2: Motor nativo Rust activado (<1 ms)',
+    'Línea 1: Configuración inicial YAGUARETÉ v0.2.0',
+    'Línea 2: Máquina Virtual Bytecode Rust activada (<1 ms)',
     'Línea 3: Fin de registro de prueba',
   ],
 };
+
+function roundHalfAwayFromZero(n: number): number {
+  if (n === 0) return 0;
+  const rounded = n < 0 ? -Math.round(-n) : Math.round(n);
+  return rounded === 0 ? 0 : rounded;
+}
+
+function parseFloatText(text: string): number | null {
+  const t = text.trim();
+  const lower = t.toLowerCase();
+  if (!t || lower.includes('inf') || lower.includes('nan') || !/\d/.test(t)) {
+    return null;
+  }
+  const n = Number(t);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parseInputLine(text: string): any {
+  const t = text.trim();
+  const up = t.toUpperCase();
+  if (up === 'VERDADERO' || up === 'TRUE') return true;
+  if (up === 'FALSO' || up === 'FALSE') return false;
+  if (/^[+-]?\d+$/.test(t)) {
+    const n = Number.parseInt(t, 10);
+    if (Number.isSafeInteger(n)) return n;
+  }
+  if (t.includes('.') || t.includes('e') || t.includes('E')) {
+    const f = parseFloatText(t);
+    if (f !== null) return f;
+  }
+  return text;
+}
+
+function computePower(base: number, exp: number): number {
+  if (base < 0 && !Number.isInteger(exp)) {
+    throw new Error(
+      'PseudoRuntimeError: No se puede elevar un número negativo a un exponente fraccionario real.'
+    );
+  }
+  if (base === 0 && exp < 0) {
+    throw new Error(
+      'PseudoRuntimeError: División por cero: no se puede elevar 0 a un exponente negativo.'
+    );
+  }
+  return Math.pow(base, exp);
+}
 
 export function formatYaguareteValue(val: any): string {
   if (val === null || val === undefined || val === 'NULO') return 'NULO';
@@ -130,12 +187,24 @@ function stripLineComment(rawLine: string): string {
 
 export function runYaguareteCode(
   source: string,
-  persistentState?: {
-    vars: Map<string, VariableEntry>;
-    structs: Map<string, StructDef>;
-    funcs: Map<string, FuncDef>;
-  }
+  persistentOrOptions?: PersistentReplState | RunYaguareteOptions
 ): ExecutionResult & { lastExprValue?: any } {
+  const isOptions =
+    persistentOrOptions !== undefined &&
+    ('persistentState' in persistentOrOptions || 'onReadInput' in persistentOrOptions);
+  const persistentState = isOptions
+    ? (persistentOrOptions as RunYaguareteOptions).persistentState
+    : (persistentOrOptions as PersistentReplState | undefined);
+  const onReadInput = isOptions
+    ? (persistentOrOptions as RunYaguareteOptions).onReadInput
+    : undefined;
+  const readInput =
+    onReadInput ??
+    ((prompt: string) =>
+      typeof window !== 'undefined' && typeof window.prompt === 'function'
+        ? window.prompt(prompt || 'Ingresa un valor para LEER():')
+        : '');
+
   const startTime = performance.now();
   const output: string[] = [];
   const structs = persistentState?.structs ?? new Map<string, StructDef>();
@@ -347,13 +416,32 @@ export function runYaguareteCode(
       }
     }
 
+    // Unary +/- (lower precedence than ^ so -2 ^ 2 === -4, while allowing 2 ^ -3 === 0.125)
+    if (s.startsWith('-') && s.length > 1) {
+      return -Number(evalExpr(s.slice(1), scope));
+    }
+    if (s.startsWith('+') && s.length > 1) {
+      return Number(evalExpr(s.slice(1), scope));
+    }
+
+    // Power operator (^), right-associative (2 ^ 3 ^ 2 === 512)
+    const powSplit = splitTopLevelPower(s);
+    if (powSplit) {
+      const left = evalExpr(powSplit.left, scope);
+      const right = evalExpr(powSplit.right, scope);
+      if (typeof left !== 'number' || typeof right !== 'number') {
+        throw new Error("PseudoRuntimeError: Operador '^' solo compatible con números.");
+      }
+      return computePower(left, right);
+    }
+
     // Parenthesized expression
     if (s.startsWith('(') && s.endsWith(')') && isMatchingOuterParens(s)) {
       return evalExpr(s.slice(1, -1), scope);
     }
 
     // Numeric literal
-    if (/^-?\d+(\.\d+)?$/.test(s)) {
+    if (/^\d+(\.\d+)?$/.test(s)) {
       return Number(s);
     }
 
@@ -361,18 +449,197 @@ export function runYaguareteCode(
     const fnCallMatch = s.match(/^([A-Za-z_][A-Za-z0-9_.]*)\s*\((.*)\)$/);
     if (fnCallMatch && isMatchingOuterParens(s.slice(fnCallMatch[1].length).trim())) {
       const fnName = fnCallMatch[1];
+      const upperFn = fnName.toUpperCase();
       const argsList = fnCallMatch[2].trim()
         ? splitTopLevel(fnCallMatch[2].trim(), ',').map((a) => evalExpr(a, scope))
         : [];
 
-      if (fnName === 'ESPAR') return Number(argsList[0]) % 2 === 0;
-      if (fnName === 'ESIMPAR') return Math.abs(Number(argsList[0]) % 2) === 1;
-      if (fnName === 'MOD') {
-        const d = Math.trunc(Number(argsList[1]));
-        if (d === 0) throw new Error('PseudoRuntimeError: Módulo por cero.');
-        return Math.trunc(Number(argsList[0])) % d;
+      const requireArity = (expected: number) => {
+        if (argsList.length !== expected) {
+          throw new Error(
+            `PseudoRuntimeError: ${upperFn} requiere exactamente ${expected} argumento(s).`
+          );
+        }
+      };
+
+      const requireNum = (val: any): number => {
+        if (typeof val !== 'number' || Number.isNaN(val)) {
+          throw new Error(`PseudoRuntimeError: ${upperFn} requiere argumentos numéricos.`);
+        }
+        return val;
+      };
+
+      const requireText = (val: any): string => {
+        if (typeof val !== 'string') {
+          throw new Error(`PseudoRuntimeError: ${upperFn} requiere un argumento de tipo CADENA.`);
+        }
+        return val;
+      };
+
+      if (fnName.endsWith('.LEER_LINEA')) {
+        const targetName = fnName.slice(0, -'.LEER_LINEA'.length);
+        const fObj = resolvePathValue(targetName, scope);
+        if (fObj && fObj.__file) {
+          const lineVal = fObj.lines[fObj.cursor] ?? '';
+          fObj.cursor++;
+          return lineVal;
+        }
+        return '';
       }
-      if (fnName === 'ABRIR_ARCHIVO') {
+
+      if (upperFn === 'LEER') {
+        if (argsList.length > 1) {
+          throw new Error('PseudoRuntimeError: LEER requiere 0 o 1 argumento.');
+        }
+        let promptMsg = '';
+        if (argsList.length === 1) {
+          if (typeof argsList[0] !== 'string') {
+            throw new Error('PseudoRuntimeError: LEER requiere un mensaje de tipo CADENA.');
+          }
+          promptMsg = argsList[0];
+        }
+        const raw = (readInput(promptMsg) ?? '').replace(/[\r\n]+$/, '');
+        if (promptMsg) output.push(`${promptMsg}${raw}`);
+        return parseInputLine(raw);
+      }
+
+      if (upperFn === 'MAYUSCULAS') {
+        requireArity(1);
+        return requireText(argsList[0]).toUpperCase();
+      }
+      if (upperFn === 'MINUSCULAS') {
+        requireArity(1);
+        return requireText(argsList[0]).toLowerCase();
+      }
+      if (upperFn === 'RECORTAR') {
+        requireArity(1);
+        return requireText(argsList[0]).trim();
+      }
+      if (upperFn === 'DIVIDIR_CADENA') {
+        requireArity(2);
+        const text = requireText(argsList[0]);
+        const sep = requireText(argsList[1]);
+        if (sep.length === 0) {
+          throw new Error('PseudoRuntimeError: El separador no puede estar vacío.');
+        }
+        return text.split(sep);
+      }
+
+      if (upperFn === 'A_ENTERO') {
+        requireArity(1);
+        const v = argsList[0];
+        if (typeof v === 'number') return Math.trunc(v);
+        if (typeof v === 'boolean') return v ? 1 : 0;
+        if (typeof v === 'string') {
+          const t = v.trim();
+          if (/^[+-]?\d+$/.test(t)) return Number.parseInt(t, 10);
+          const f = parseFloatText(t);
+          if (f !== null) return Math.trunc(f);
+        }
+        throw new Error(
+          `PseudoRuntimeError: No se puede convertir '${formatYaguareteValue(v)}' a ENTERO.`
+        );
+      }
+      if (upperFn === 'A_REAL' || upperFn === 'A_FLOTANTE') {
+        requireArity(1);
+        const v = argsList[0];
+        let r: number | null = null;
+        if (typeof v === 'number') r = v;
+        else if (typeof v === 'boolean') r = v ? 1 : 0;
+        else if (typeof v === 'string') r = parseFloatText(v);
+        if (r === null) {
+          throw new Error(
+            `PseudoRuntimeError: No se puede convertir '${formatYaguareteValue(v)}' a número real.`
+          );
+        }
+        return upperFn === 'A_FLOTANTE' ? Math.fround(r) : r;
+      }
+      if (upperFn === 'A_CADENA') {
+        requireArity(1);
+        return formatYaguareteValue(argsList[0]);
+      }
+      if (upperFn === 'A_BOOLEANO') {
+        requireArity(1);
+        const v = argsList[0];
+        if (typeof v === 'boolean') return v;
+        if (typeof v === 'number') return v !== 0;
+        if (typeof v === 'string') {
+          const up = v.trim().toUpperCase();
+          if (up === 'VERDADERO' || up === 'TRUE') return true;
+          if (up === 'FALSO' || up === 'FALSE') return false;
+        }
+        throw new Error(
+          `PseudoRuntimeError: No se puede convertir '${formatYaguareteValue(v)}' a BOOLEANO.`
+        );
+      }
+
+      if (upperFn === 'ESPAR') {
+        requireArity(1);
+        return Math.trunc(requireNum(argsList[0])) % 2 === 0;
+      }
+      if (upperFn === 'ESIMPAR') {
+        requireArity(1);
+        return Math.abs(Math.trunc(requireNum(argsList[0])) % 2) === 1;
+      }
+      if (upperFn === 'MOD') {
+        requireArity(2);
+        const d = Math.trunc(requireNum(argsList[1]));
+        if (d === 0) throw new Error('PseudoRuntimeError: Módulo por cero.');
+        return Math.trunc(requireNum(argsList[0])) % d;
+      }
+      if (upperFn === 'RAIZCUADRADA') {
+        requireArity(1);
+        const n = requireNum(argsList[0]);
+        if (n < 0) {
+          throw new Error(
+            'PseudoRuntimeError: No se puede calcular la raíz cuadrada de un número negativo.'
+          );
+        }
+        return Math.sqrt(n);
+      }
+      if (upperFn === 'ABS') {
+        requireArity(1);
+        return Math.abs(requireNum(argsList[0]));
+      }
+      if (upperFn === 'POTENCIA') {
+        requireArity(2);
+        return computePower(requireNum(argsList[0]), requireNum(argsList[1]));
+      }
+      if (upperFn === 'ALEATORIO') {
+        requireArity(2);
+        const lo = Math.trunc(requireNum(argsList[0]));
+        const hi = Math.trunc(requireNum(argsList[1]));
+        if (lo > hi) {
+          throw new Error("PseudoRuntimeError: ALEATORIO: 'min' no puede ser mayor que 'max'.");
+        }
+        return Math.floor(Math.random() * (hi - lo + 1)) + lo;
+      }
+      if (upperFn === 'MIN' || upperFn === 'MAX') {
+        requireArity(2);
+        const a = requireNum(argsList[0]);
+        const b = requireNum(argsList[1]);
+        return upperFn === 'MIN' ? Math.min(a, b) : Math.max(a, b);
+      }
+      if (upperFn === 'REDONDEAR') {
+        if (argsList.length < 1 || argsList.length > 2) {
+          throw new Error('PseudoRuntimeError: REDONDEAR requiere 1 o 2 argumentos.');
+        }
+        const x = requireNum(argsList[0]);
+        if (argsList.length === 1) {
+          return roundHalfAwayFromZero(x);
+        }
+        const rawDec = requireNum(argsList[1]);
+        if (!Number.isInteger(rawDec) || rawDec < 0) {
+          throw new Error(
+            'PseudoRuntimeError: Los decimales de REDONDEAR deben ser un entero mayor o igual a 0.'
+          );
+        }
+        const factor = Math.pow(10, Math.min(rawDec, 300));
+        const res = roundHalfAwayFromZero(x * factor) / factor;
+        return Number.isFinite(res) ? res : x;
+      }
+
+      if (upperFn === 'ABRIR_ARCHIVO') {
         const path = String(argsList[0]);
         const mode = String(argsList[1] || 'lectura').toLowerCase();
         const linesData = VIRTUAL_FILES[path] ? [...VIRTUAL_FILES[path]] : [];
@@ -386,17 +653,6 @@ export function runYaguareteCode(
             return this.cursor >= this.lines.length;
           },
         };
-      }
-
-      if (fnName.endsWith('.LEER_LINEA')) {
-        const targetName = fnName.slice(0, -'.LEER_LINEA'.length);
-        const fObj = resolvePathValue(targetName, scope);
-        if (fObj && fObj.__file) {
-          const lineVal = fObj.lines[fObj.cursor] ?? '';
-          fObj.cursor++;
-          return lineVal;
-        }
-        return '';
       }
 
       if (funcs.has(fnName)) {
@@ -414,6 +670,9 @@ export function runYaguareteCode(
     if (tokens.length === 0) return undefined;
 
     const rootName = tokens[0];
+    if (tokens.length === 1 && rootName.toUpperCase() === 'PI') {
+      return Math.PI;
+    }
     const entry = scope.get(rootName) ?? globalVars.get(rootName);
     if (!entry) {
       throw new Error(`Identificador no declarado: '${rootName}'`);
@@ -453,6 +712,10 @@ export function runYaguareteCode(
   ) {
     const tokens = tokenizeAccessPath(lhs);
     const rootName = tokens[0];
+
+    if (rootName.toUpperCase() === 'PI') {
+      throw new Error("PseudoRuntimeError: No se puede reasignar o redeclarar la constante matemática 'PI'.");
+    }
 
     if (tokens.length === 1) {
       const existing = scope.get(rootName) ?? globalVars.get(rootName);
@@ -733,7 +996,7 @@ export function runYaguareteCode(
       // Typed declaration with optional dimensions and initialization:
       // e.g. ENTERO edad = 25 | REAL matriz[12][30] | ENTERO[][] matriz_1 = [...] | Libro libro1
       const declMatch = stmt.match(
-        /^(ENTERO|FLOTANTE|REAL|CADENA|CARACTER|BOOLEANO|ARCHIVO|[A-Za-z_][A-Za-z0-9_]*)(\[\s*\])*?\s+([A-Za-z_][A-Za-z0-9_]*)((?:\[[^\]]*\])*)\s*(?:=\s*(.+))?$/
+        /^(ENTERO|FLOTANTE|REAL|CADENA|CARACTER|BOOLEANO|ARCHIVO|[A-Za-z_][A-Za-z0-9_]*)((?:\[\s*\])*)\s+([A-Za-z_][A-Za-z0-9_]*)((?:\[[^\]]*\])*)\s*(?:=\s*(.+))?$/
       );
       if (
         declMatch &&
@@ -828,7 +1091,14 @@ function inferYaguareteType(val: any): string {
   if (typeof val === 'number') return Number.isInteger(val) ? 'ENTERO' : 'REAL';
   if (typeof val === 'boolean') return 'BOOLEANO';
   if (typeof val === 'string') return 'CADENA';
-  if (Array.isArray(val)) return Array.isArray(val[0]) ? 'ENTERO[][]' : 'ENTERO[]';
+  if (Array.isArray(val)) {
+    if (val.length === 0) return 'ENTERO[]';
+    if (Array.isArray(val[0])) {
+      const inner = inferYaguareteType(val[0]);
+      return inner.endsWith('[]') ? `${inner}[]` : `${inner}[]`;
+    }
+    return `${inferYaguareteType(val[0])}[]`;
+  }
   if (val && val.__structName) return val.__structName;
   if (val && val.__file) return 'ARCHIVO';
   return 'NULO';
@@ -968,7 +1238,7 @@ function splitTopLevelAddSub(s: string): { left: string; op: '+' | '-'; right: s
       else if (c === '[') b--;
       else if (p === 0 && b === 0 && (c === '+' || c === '-') && i > 0) {
         const prev = s.slice(0, i).trim();
-        if (prev && !/[+\-*/%(,=<>]$/.test(prev)) {
+        if (prev && !/[+\-*/%^,(,=<>!]$/.test(prev) && !/\d[eE]$/.test(prev)) {
           return { left: prev, op: c, right: s.slice(i + 1).trim() };
         }
       }
@@ -1003,6 +1273,32 @@ function splitTopLevelMulDiv(
         }
         if (c === '*' || c === '/' || c === '%') {
           return { left: s.slice(0, i).trim(), op: c, right: s.slice(i + 1).trim() };
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function splitTopLevelPower(s: string): { left: string; right: string } | null {
+  let p = 0;
+  let b = 0;
+  let inS = false;
+  let inD = false;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (c === "'" && !inD) inS = !inS;
+    else if (c === '"' && !inS) inD = !inD;
+    else if (!inS && !inD) {
+      if (c === '(') p++;
+      else if (c === ')') p--;
+      else if (c === '[') b++;
+      else if (c === ']') b--;
+      else if (p === 0 && b === 0 && c === '^') {
+        const left = s.slice(0, i).trim();
+        const right = s.slice(i + 1).trim();
+        if (left && right) {
+          return { left, right };
         }
       }
     }

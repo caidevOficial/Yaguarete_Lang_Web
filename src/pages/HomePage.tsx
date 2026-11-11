@@ -22,6 +22,7 @@ import {
   GITHUB_REPO_URL,
   GITHUB_LATEST_RELEASE_URL,
   RELEASES_HISTORY,
+  YAGUARETE_VERSION,
 } from '../data/yaguareteData';
 import { YaguareteCodeBlock } from '../utils/syntaxHighlighter';
 import { InteractivePlayground } from '../components/InteractivePlayground';
@@ -117,7 +118,7 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-5 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/20 border border-sky-400/30 text-xs font-semibold text-sky-300">
                 <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                Identidad Oficial "Jaguar Gamer" • v0.1.2
+                Bytecode VM &amp; Nuevas Built-ins • v{YAGUARETE_VERSION}
               </div>
 
               <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
@@ -202,7 +203,7 @@ export const HomePage: React.FC = () => {
               </div>
               <h2 className="font-display text-lg font-bold">Descargas</h2>
               <p className="text-sm text-(--text-secondary)">
-                Instalador gráfico autónomo para Windows (<code className="inline-code">~5 MB</code>), paquetes nativos <code className="inline-code">.deb</code> y <code className="inline-code">.tar.gz</code> para Linux, y extensión oficial para VS Code.
+                Instalador gráfico autónomo para Windows (<code className="inline-code">{DOWNLOAD_ASSETS.windowsInstaller.size}</code>), paquetes nativos <code className="inline-code">.deb</code> y <code className="inline-code">.tar.gz</code> para Linux, y extensión oficial para VS Code.
               </p>
             </div>
             <Link
@@ -238,9 +239,9 @@ export const HomePage: React.FC = () => {
               <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                 <Cpu className="w-5 h-5" />
               </div>
-              <h2 className="font-display text-lg font-bold">Motor Nativo Rust</h2>
+              <h2 className="font-display text-lg font-bold">Bytecode VM &amp; Motor Rust</h2>
               <p className="text-sm text-(--text-secondary)">
-                Compilado nativo con arranque en <code className="inline-code">&lt;1 ms</code>, ejecución ~300x más rápida, diagnóstico LSP en <code className="inline-code">&lt;0.2 ms</code> y depurador interactivo DAP.
+                Máquina Virtual Bytecode (<code className="inline-code">--engine vm</code>) hasta <code className="inline-code">5,72x</code> más veloz, arranque en <code className="inline-code">&lt;1 ms</code>, diagnóstico LSP en <code className="inline-code">&lt;0.2 ms</code> y depurador DAP.
               </p>
             </div>
             <Link
@@ -273,46 +274,46 @@ export const HomePage: React.FC = () => {
         <InteractivePlayground compact={true} />
       </section>
 
-      {/* RUST ENGINE v0.1.2 BENCHMARK & FEATURES GRID */}
+      {/* RUST ENGINE & BYTECODE VM v0.2.0 BENCHMARK & FEATURES GRID */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left: Performance Metrics */}
           <div className="lg:col-span-5 rounded-2xl bg-[#070c18] text-white p-7 border border-blue-800/50 shadow-xl flex flex-col justify-between">
             <div className="space-y-4">
               <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-600/30 text-cyan-300 border border-cyan-400/30">
-                Arquitectura Workspace Cargo (Rust)
+                Arquitectura Bytecode VM + Workspace Cargo (v{YAGUARETE_VERSION})
               </span>
               <h2 className="font-display text-2xl font-extrabold">
-                Rendimiento Nativo Revolucionario
+                Rendimiento Nativo y Bytecode VM
               </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                El núcleo <code className="text-sky-300">yaguarete_core</code> implementa un analizador léxico determinista, parser recursivo descendente, verificador estático de tipos e intérprete nativo sin dependencias externas.
+                El núcleo <code className="text-sky-300">yaguarete_core</code> incorpora en <code className="text-sky-300">v{YAGUARETE_VERSION}</code> un compilador a bytecode y Máquina Virtual basada en pila (<code className="text-sky-300">--engine vm</code>) con slots locales O(1) e indexación in-situ sin clonado, reduciendo un <strong>82,5%</strong> el tiempo en algoritmos intensivos.
               </p>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                  <div className="text-2xl font-display font-extrabold text-cyan-400">&lt; 1 ms</div>
-                  <div className="text-xs text-slate-400 mt-1">Arranque en frío (~250x más rápido)</div>
+                  <div className="text-2xl font-display font-extrabold text-cyan-400">5,72x</div>
+                  <div className="text-xs text-slate-400 mt-1">Bytecode VM en Selection Sort 10k (6,9s vs 39,5s)</div>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                  <div className="text-2xl font-display font-extrabold text-emerald-400">~300x</div>
-                  <div className="text-xs text-slate-400 mt-1">Velocidad en Quicksort (1 ms vs 3.240 ms)</div>
+                  <div className="text-2xl font-display font-extrabold text-emerald-400">&lt; 1 ms</div>
+                  <div className="text-xs text-slate-400 mt-1">Arranque en frío y AST optimizado (4,35x)</div>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
                   <div className="text-2xl font-display font-extrabold text-sky-400">&lt; 0.2 ms</div>
                   <div className="text-xs text-slate-400 mt-1">Diagnóstico en vivo <code className="text-sky-300">lsp-check</code></div>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                  <div className="text-2xl font-display font-extrabold text-amber-300">~830 KB</div>
-                  <div className="text-xs text-slate-400 mt-1">Binario autónomo sin runtime</div>
+                  <div className="text-2xl font-display font-extrabold text-amber-300">{DOWNLOAD_ASSETS.windowsBinary.size}</div>
+                  <div className="text-xs text-slate-400 mt-1">CLI autónomo Windows ({DOWNLOAD_ASSETS.linuxBinary.size} Linux)</div>
                 </div>
               </div>
             </div>
 
             <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-              <span>82 pruebas automatizadas superadas</span>
+              <span>110 tests Rust &amp; 83 tests Python</span>
               <Link to="/novedades" className="text-cyan-400 hover:underline font-semibold">
-                Leer ADR-001 →
+                Ver Changelog v{YAGUARETE_VERSION} →
               </Link>
             </div>
           </div>

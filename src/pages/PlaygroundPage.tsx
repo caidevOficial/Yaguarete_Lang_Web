@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Terminal, Sparkles } from 'lucide-react';
 import { InteractivePlayground } from '../components/InteractivePlayground';
+import { YAGUARETE_VERSION } from '../data/yaguareteData';
 
 export const PlaygroundPage: React.FC = () => {
   const location = useLocation();
@@ -13,7 +14,7 @@ export const PlaygroundPage: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/15 text-blue-500 text-xs font-bold">
             <Sparkles className="w-3.5 h-3.5" />
-            Entorno de Ejecución en el Navegador • YAGUARETÉ v0.1.2
+            Entorno de Ejecución en el Navegador • YAGUARETÉ v{YAGUARETE_VERSION}
           </div>
           <h1 className="font-display text-3xl font-extrabold mt-2 flex items-center gap-2.5">
             <Terminal className="w-7 h-7 text-cyan-400" />
@@ -21,7 +22,7 @@ export const PlaygroundPage: React.FC = () => {
           </h1>
         </div>
         <p className="text-sm text-(--text-secondary) max-w-xl">
-          Escribe y ejecuta programas completos <code className="inline-code">.yaguarete</code> con soporte de estructuras, punteros <code className="inline-code">NULO</code>, matrices, división entera <code className="inline-code">//</code> y archivos virtuales, o cambia a <code className="inline-code">yaguarete repl</code> para evaluar expresiones al vuelo.
+          Escribe y ejecuta programas completos <code className="inline-code">.yaguarete</code> con soporte de <code className="inline-code">v{YAGUARETE_VERSION}</code> (potencia <code className="inline-code">^</code>, <code className="inline-code">PI</code>, <code className="inline-code">LEER()</code>, cadenas, conversión y matemáticas), estructuras, punteros <code className="inline-code">NULO</code>, matrices, división entera <code className="inline-code">//</code> y archivos virtuales, o cambia a <code className="inline-code">yaguarete repl</code>.
         </p>
       </div>
 

@@ -17,6 +17,8 @@ import {
   GITHUB_RELEASES_URL,
   GITHUB_LATEST_RELEASE_URL,
   RELEASES_HISTORY,
+  RELEASE_CHECKSUMS,
+  YAGUARETE_VERSION,
 } from '../data/yaguareteData';
 
 export const DownloadsPage: React.FC = () => {
@@ -333,6 +335,92 @@ export const DownloadsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Responsive SHA-256 Checksums Table */}
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="font-display text-2xl font-bold flex items-center gap-2">
+            <ShieldCheck className="w-6 h-6 text-emerald-400" />
+            Sumas de Verificación SHA-256 (v{YAGUARETE_VERSION})
+          </h2>
+          <span className="text-xs text-(--text-secondary)">
+            Verifica la autenticidad e integridad de cada binario descargado
+          </span>
+        </div>
+
+        <div
+          tabIndex={0}
+          role="region"
+          aria-labelledby="checksums-table-caption"
+          className="table-wrapper"
+        >
+          <table
+            style={
+              {
+                '--label-2': '"Plataforma"',
+                '--label-3': '"Tamaño"',
+                '--label-4': '"SHA-256"',
+              } as React.CSSProperties
+            }
+          >
+            <caption id="checksums-table-caption">
+              Checksums SHA-256 oficiales publicados en YAGUARETÉ v{YAGUARETE_VERSION}
+            </caption>
+            <thead>
+              <tr>
+                <th>Archivo</th>
+                <th>Plataforma</th>
+                <th>Tamaño</th>
+                <th>SHA-256</th>
+              </tr>
+            </thead>
+            <tbody>
+              {RELEASE_CHECKSUMS.map((item) => {
+                const copyId = `sha-${item.file}`;
+                const isCopied = copiedCmd === copyId;
+                return (
+                  <tr key={item.file}>
+                    <th>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-mono text-xs font-bold text-sky-400 hover:underline"
+                      >
+                        {item.file}
+                      </a>
+                    </th>
+                    <td className="text-xs">{item.platform}</td>
+                    <td className="font-mono text-xs">{item.size}</td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <code className="inline-code text-[11px] font-mono break-all">
+                          {item.sha256}
+                        </code>
+                        <button
+                          type="button"
+                          onClick={() => copyCommand(item.sha256, copyId)}
+                          aria-label={`Copiar SHA-256 de ${item.file}`}
+                          className="min-w-6 min-h-6 p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white shrink-0 cursor-pointer transition-colors"
+                        >
+                          {isCopied ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                          )}
+                        </button>
+                        <span role="status" className="text-[11px] text-emerald-400 font-semibold">
+                          {isCopied ? 'Copiado' : ''}
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {/* Responsive Releases Table */}
       <div className="space-y-4">
         <h2 className="font-display text-2xl font-bold">Historial de Versiones Publicadas</h2>
@@ -364,26 +452,33 @@ export const DownloadsPage: React.FC = () => {
             </thead>
             <tbody>
               {RELEASES_HISTORY.map((rel) => {
-                const isStable = rel.version === '0.1.2';
+                const isLatest = rel.version === YAGUARETE_VERSION;
+                const isPrerelease = rel.version.includes('-');
                 return (
                   <tr key={rel.version}>
                     <th>
                       <div className="flex items-center gap-2 flex-wrap">
                         <span
                           className={`font-mono font-bold ${
-                            isStable ? 'text-sky-400' : 'text-slate-400'
+                            isLatest ? 'text-sky-400' : 'text-slate-400'
                           }`}
                         >
                           v{rel.version}
                         </span>
                         <span
                           className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                            isStable
+                            isLatest
                               ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                              : 'bg-slate-800 text-slate-400 border border-slate-700'
+                              : isPrerelease
+                              ? 'bg-slate-800 text-slate-400 border border-slate-700'
+                              : 'bg-blue-500/15 text-sky-400 border border-blue-500/30'
                           }`}
                         >
-                          {isStable ? 'Oficial Estable' : 'Pre-release'}
+                          {isLatest
+                            ? 'Oficial Estable'
+                            : isPrerelease
+                            ? 'Pre-release'
+                            : 'Estable anterior'}
                         </span>
                       </div>
                     </th>

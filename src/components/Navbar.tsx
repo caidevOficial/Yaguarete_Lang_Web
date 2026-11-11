@@ -15,7 +15,7 @@ import {
   History,
   Sparkles,
 } from 'lucide-react';
-import { GITHUB_REPO_URL } from '../data/yaguareteData';
+import { GITHUB_REPO_URL, YAGUARETE_VERSION } from '../data/yaguareteData';
 
 interface NavbarProps {
   onOpenSearch: () => void;
@@ -124,7 +124,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               to="/documentacion"
               className="px-2 py-1 hover:text-white transition-colors whitespace-nowrap"
             >
-              Docs v0.1.2
+              Docs v{YAGUARETE_VERSION}
             </Link>
             <Link
               to="/descargas"
@@ -152,7 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
           <div className="hidden md:flex items-center gap-3 text-[11px] text-slate-400">
             <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Motor Nativo Rust v0.1.2 (&lt;1 ms)
+              Bytecode VM Rust v{YAGUARETE_VERSION} (&lt;1 ms)
             </span>
             <span>|</span>
             <span>Extensión: <code className="text-sky-300 bg-transparent">.yaguarete</code></span>
@@ -180,7 +180,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                     YAGUARETÉ
                   </span>
                   <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-blue-600/30 text-cyan-300 border border-cyan-400/30">
-                    v0.1.2
+                    v{YAGUARETE_VERSION}
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-300 hidden sm:block">
@@ -219,7 +219,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                 className="hidden lg:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-md shadow-blue-600/25 transition-all"
               >
                 <Download className="w-4 h-4" />
-                Descargar v0.1.2
+                Descargar v{YAGUARETE_VERSION}
               </Link>
 
               <button

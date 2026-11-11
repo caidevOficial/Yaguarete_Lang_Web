@@ -39,6 +39,23 @@ export interface ReleaseEntry {
   }[];
 }
 
+export interface BuiltinEntry {
+  fn: string;
+  category: 'Entrada / Salida y Archivos' | 'Cadenas' | 'Conversión de Tipos' | 'Matemáticas y Constantes';
+  params: string;
+  returns: string;
+  description: string;
+}
+
+export interface ChecksumEntry {
+  file: string;
+  platform: string;
+  size: string;
+  sha256: string;
+  url: string;
+}
+
+export const YAGUARETE_VERSION = '0.2.0';
 export const GITHUB_REPO_URL = 'https://github.com/caidevOficial/Yaguarete_Lang';
 export const GITHUB_RELEASES_URL = 'https://github.com/caidevOficial/Yaguarete_Lang/releases';
 export const GITHUB_LATEST_RELEASE_URL = 'https://github.com/caidevOficial/Yaguarete_Lang/releases/latest';
@@ -47,57 +64,111 @@ export const DOWNLOAD_ASSETS = {
   windowsInstaller: {
     name: 'Instalador_Yaguarete.exe',
     label: 'Instalador Gráfico Todo-en-Uno (Windows x64)',
-    version: '0.1.2',
-    size: '~7.8 MB',
+    version: '0.2.0',
+    size: '7.92 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/Instalador_Yaguarete.exe`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
-      'Instala automáticamente el binario nativo yaguarete.exe, configura el PATH del usuario, asocia iconos .yaguarete en Windows y registra la extensión oficial en VS Code y Antigravity IDE.',
+      'Instala automáticamente el binario nativo yaguarete.exe (con Bytecode VM), configura el PATH del usuario, asocia iconos .yaguarete en Windows y registra la extensión oficial en VS Code y Antigravity IDE.',
     silentCommand: '.\\Instalador_Yaguarete.exe --silent',
   },
   windowsBinary: {
     name: 'yaguarete.exe',
     label: 'Binario CLI Autónomo (Windows PE x64)',
-    version: '0.1.2',
-    size: '~2.4 MB',
+    version: '0.2.0',
+    size: '2.75 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete.exe`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
-    description: 'Ejecutable nativo compilado en Rust sin dependencias externas ni runtime.',
+    description: 'Ejecutable nativo compilado en Rust con Máquina Virtual Bytecode sin dependencias externas ni runtime.',
+  },
+  linuxBinary: {
+    name: 'yaguarete',
+    label: 'Binario ELF Nativo (Linux x64)',
+    version: '0.2.0',
+    size: '2.90 MB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete`,
+    fallbackUrl: GITHUB_LATEST_RELEASE_URL,
+    description: 'Binario ELF autónomo de alta velocidad para GNU/Linux (yaguarete run, yaguarete repl, --engine vm|ast).',
   },
   linuxDeb: {
-    name: 'yaguarete_0.1.2_amd64.deb',
+    name: 'yaguarete_0.2.0_amd64.deb',
     label: 'Paquete Nativo Debian / Ubuntu (.deb)',
-    version: '0.1.2',
-    size: '~3.3 MB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete_0.1.2_amd64.deb`,
+    version: '0.2.0',
+    size: '3.33 MB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete_0.2.0_amd64.deb`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Para Ubuntu, Debian, Linux Mint, Pop!_OS y Kali Linux. Instala /usr/bin/yaguarete, registra el tipo MIME application/x-yaguarete e iconos del sistema.',
-    installCommand: 'sudo apt install ./yaguarete_0.1.2_amd64.deb',
+    installCommand: 'sudo apt install ./yaguarete_0.2.0_amd64.deb',
   },
   linuxTar: {
-    name: 'yaguarete-0.1.2-linux-x86_64.tar.gz',
+    name: 'yaguarete-0.2.0-linux-x86_64.tar.gz',
     label: 'Tarball Portable Universal Linux (.tar.gz)',
-    version: '0.1.2',
-    size: '~3.5 MB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-0.1.2-linux-x86_64.tar.gz`,
+    version: '0.2.0',
+    size: '3.59 MB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-0.2.0-linux-x86_64.tar.gz`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Compatible con cualquier distribución (Arch, Fedora, openSUSE, Alpine). Incluye script install.sh para usuario (~/.local/bin) o global.',
-    installCommand: 'tar -xzf yaguarete-0.1.2-linux-x86_64.tar.gz && cd yaguarete-0.1.2-linux-x86_64 && ./install.sh',
+    installCommand: 'tar -xzf yaguarete-0.2.0-linux-x86_64.tar.gz && cd yaguarete-0.2.0-linux-x86_64 && ./install.sh',
   },
   vscodeExtension: {
-    name: 'yaguarete-language-support-0.1.2.vsix',
+    name: 'yaguarete-language-support-0.2.0.vsix',
     label: 'Extensión Oficial VS Code / Antigravity / Cursor (.vsix)',
-    version: '0.1.2',
-    size: '~778 KB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-language-support-0.1.2.vsix`,
+    version: '0.2.0',
+    size: '~781 KB',
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-language-support-0.2.0.vsix`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
-      'Tema de iconos "Jaguar Gamer", gramática TextMate avanzada, IntelliSense prioritario, diagnósticos LSP en <0.2 ms, depurador DAP con breakpoints y consola REPL.',
-    installCommand: 'code --install-extension yaguarete-language-support-0.1.2.vsix --force',
+      'Tema de iconos "Jaguar Gamer", gramática TextMate ampliada (cadenas, conversión, matemáticas y constante PI), SignatureHelp completo para built-ins, IntelliSense prioritario, diagnósticos LSP en <0.2 ms y depurador DAP.',
+    installCommand: 'code --install-extension yaguarete-language-support-0.2.0.vsix --force',
   },
 };
+
+export const RELEASE_CHECKSUMS: ChecksumEntry[] = [
+  {
+    file: 'Instalador_Yaguarete.exe',
+    platform: 'Windows x64',
+    size: '7.92 MB',
+    sha256: '31a355d96bcb9c168c13cab7f2fa839cedee17948ed1e97713f75002417caf0e',
+    url: DOWNLOAD_ASSETS.windowsInstaller.url,
+  },
+  {
+    file: 'yaguarete.exe',
+    platform: 'Windows x64 (CLI)',
+    size: '2.75 MB',
+    sha256: '4c4ef97577b2134a225975d3b5adcb268a5f13f95d28179d702b1c399b988fa7',
+    url: DOWNLOAD_ASSETS.windowsBinary.url,
+  },
+  {
+    file: 'yaguarete',
+    platform: 'Linux x64 (ELF)',
+    size: '2.90 MB',
+    sha256: '073bf7483221101a76992948bbe6a73f15154093ac8e86e5840fb7f96eca3998',
+    url: DOWNLOAD_ASSETS.linuxBinary.url,
+  },
+  {
+    file: 'yaguarete_0.2.0_amd64.deb',
+    platform: 'Debian / Ubuntu',
+    size: '3.33 MB',
+    sha256: 'cc8822b546ac87e75026fd3595aa7a018680d2505cf2ac3cedaf669da6cf808f',
+    url: DOWNLOAD_ASSETS.linuxDeb.url,
+  },
+  {
+    file: 'yaguarete-0.2.0-linux-x86_64.tar.gz',
+    platform: 'Linux Universal',
+    size: '3.59 MB',
+    sha256: '03d437f024e550c0f5b7f96109890ada0728e91dd85e3e5f096b42f4587030ee',
+    url: DOWNLOAD_ASSETS.linuxTar.url,
+  },
+  {
+    file: 'yaguarete-language-support-0.2.0.vsix',
+    platform: 'VS Code / Cursor / Antigravity',
+    size: '0.76 MB',
+    sha256: '6b7bf682c439b3cda47862ced022e87db00ace70a91c63ca9d4ee59770539bf2',
+    url: DOWNLOAD_ASSETS.vscodeExtension.url,
+  },
+];
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
@@ -280,7 +351,7 @@ FIN`,
 
     // Escritura de informe de salida
     ARCHIVO salida = ABRIR_ARCHIVO("resultados.txt", "escritura")
-    salida.ESCRIBIR_LINEA("INFORME FINAL YAGUARETÉ v0.1.2")
+    salida.ESCRIBIR_LINEA("INFORME FINAL YAGUARETÉ v0.2.0")
     salida.ESCRIBIR_LINEA("Total liquidado: $1940000.00")
     salida.CERRAR_ARCHIVO()
 FIN`,
@@ -289,7 +360,7 @@ FIN`,
       'Registro: ID:101 | Lucía Mendez | Analista Senior | $580000.00',
       'Registro: ID:102 | Martín Palermo | Arquitecto Rust | $720000.00',
       'Registro: ID:103 | Julieta Rossi | Ing. de Datos | $640000.00',
-      '[ARCHIVO resultados.txt] << INFORME FINAL YAGUARETÉ v0.1.2',
+      '[ARCHIVO resultados.txt] << INFORME FINAL YAGUARETÉ v0.2.0',
       '[ARCHIVO resultados.txt] << Total liquidado: $1940000.00',
     ],
   },
@@ -384,6 +455,12 @@ export const OPERATORS_TABLE = [
     example: '10 % 3 -> 1 (equivalente a MOD(10, 3))',
   },
   {
+    operator: '^',
+    operation: 'Potencia / Exponenciación (asociativo a derecha)',
+    returnType: 'Siempre REAL',
+    example: '2 ^ 3 -> 8.0 | 9 ^ 0.5 -> 3.0 | 2 ^ 3 ^ 2 -> 512.0',
+  },
+  {
     operator: '==  !=  <  >  <=  >=',
     operation: 'Operadores relacionales y comparación con NULO',
     returnType: 'BOOLEANO',
@@ -397,76 +474,206 @@ export const OPERATORS_TABLE = [
   },
 ];
 
-export const BUILTINS_TABLE = [
+export const BUILTINS_TABLE: BuiltinEntry[] = [
   {
     fn: 'IMPRIMIR(...)',
+    category: 'Entrada / Salida y Archivos',
     params: 'Uno o varios valores',
     returns: 'VOID',
     description: 'Muestra valores formateados en la salida estándar (consola, REPL o canal DAP).',
   },
   {
+    fn: 'LEER() / LEER(mensaje)',
+    category: 'Entrada / Salida y Archivos',
+    params: 'CADENA (opcional)',
+    returns: 'BOOLEANO | ENTERO | REAL | CADENA',
+    description:
+      'Lee una línea del teclado y la autoparsea: BOOLEANO si es VERDADERO/FALSO/TRUE/FALSE, ENTERO si es entero, REAL si es decimal, si no CADENA. El mensaje se imprime sin salto de línea. No disponible en DAP.',
+  },
+  {
     fn: 'ABRIR_ARCHIVO(ruta, modo)',
+    category: 'Entrada / Salida y Archivos',
     params: 'CADENA, CADENA',
     returns: 'ARCHIVO',
     description: 'Abre un flujo de archivo en modo "lectura", "escritura" o "anexo".',
   },
   {
-    fn: 'ESPAR(numero)',
-    params: 'ENTERO o REAL',
-    returns: 'BOOLEANO',
-    description: 'Retorna VERDADERO si el número evaluado es par.',
-  },
-  {
-    fn: 'ESIMPAR(numero)',
-    params: 'ENTERO o REAL',
-    returns: 'BOOLEANO',
-    description: 'Retorna VERDADERO si el número evaluado es impar.',
-  },
-  {
-    fn: 'MOD(dividendo, divisor)',
-    params: 'Numéricos',
-    returns: 'ENTERO',
-    description: 'Calcula el resto de la división entera (función canónica equivalente a %).',
-  },
-  {
-    fn: 'arreglo.largo',
-    params: 'Propiedad intrínseca',
-    returns: 'ENTERO',
-    description: 'Retorna la cantidad de elementos de un vector o filas/columnas de una matriz.',
-  },
-  {
     fn: 'archivo.LEER_LINEA()',
+    category: 'Entrada / Salida y Archivos',
     params: 'Método de ARCHIVO',
     returns: 'CADENA',
     description: 'Lee y retorna la siguiente línea de texto avanzando el cursor del archivo.',
   },
   {
     fn: 'archivo.ESCRIBIR_LINEA(texto)',
+    category: 'Entrada / Salida y Archivos',
     params: 'CADENA',
     returns: 'VOID',
     description: 'Escribe una línea de texto en el archivo abierto en modo escritura o anexo.',
   },
   {
     fn: 'archivo.findearchivo',
+    category: 'Entrada / Salida y Archivos',
     params: 'Propiedad de ARCHIVO',
     returns: 'BOOLEANO',
     description: 'Evalúa a VERDADERO cuando se alcanza el fin del archivo (EOF).',
   },
   {
     fn: 'archivo.CERRAR_ARCHIVO()',
+    category: 'Entrada / Salida y Archivos',
     params: 'Método de ARCHIVO',
     returns: 'VOID',
     description: 'Libera el descriptor del archivo y vuelca el buffer en disco.',
+  },
+  {
+    fn: 'MAYUSCULAS(texto)',
+    category: 'Cadenas',
+    params: 'CADENA',
+    returns: 'CADENA',
+    description: 'Convierte todo el texto a mayúsculas.',
+  },
+  {
+    fn: 'MINUSCULAS(texto)',
+    category: 'Cadenas',
+    params: 'CADENA',
+    returns: 'CADENA',
+    description: 'Convierte todo el texto a minúsculas.',
+  },
+  {
+    fn: 'RECORTAR(texto)',
+    category: 'Cadenas',
+    params: 'CADENA',
+    returns: 'CADENA',
+    description: 'Elimina los espacios en blanco al inicio y al final del texto.',
+  },
+  {
+    fn: 'DIVIDIR_CADENA(texto, separador)',
+    category: 'Cadenas',
+    params: 'CADENA, CADENA (no vacío)',
+    returns: 'CADENA[]',
+    description: 'Divide el texto por el separador y devuelve un vector de cadenas.',
+  },
+  {
+    fn: 'A_ENTERO(valor)',
+    category: 'Conversión de Tipos',
+    params: 'Número, BOOLEANO o CADENA',
+    returns: 'ENTERO',
+    description: 'Trunca decimales, convierte booleanos (1/0) y parsea cadenas numéricas.',
+  },
+  {
+    fn: 'A_REAL(valor)',
+    category: 'Conversión de Tipos',
+    params: 'Número, BOOLEANO o CADENA',
+    returns: 'REAL',
+    description: 'Convierte a punto flotante de 64 bits (REAL).',
+  },
+  {
+    fn: 'A_FLOTANTE(valor)',
+    category: 'Conversión de Tipos',
+    params: 'Número, BOOLEANO o CADENA',
+    returns: 'FLOTANTE',
+    description: 'Convierte a punto flotante de 32 bits (FLOTANTE).',
+  },
+  {
+    fn: 'A_CADENA(valor)',
+    category: 'Conversión de Tipos',
+    params: 'Cualquier valor',
+    returns: 'CADENA',
+    description: 'Convierte cualquier valor a su representación canónica en texto.',
+  },
+  {
+    fn: 'A_BOOLEANO(valor)',
+    category: 'Conversión de Tipos',
+    params: 'VERDADERO/FALSO/TRUE/FALSE o número',
+    returns: 'BOOLEANO',
+    description: 'Evalúa cadenas booleanas o números (donde != 0 es VERDADERO).',
+  },
+  {
+    fn: 'ESPAR(numero)',
+    category: 'Matemáticas y Constantes',
+    params: 'ENTERO o REAL',
+    returns: 'BOOLEANO',
+    description: 'Retorna VERDADERO si el número evaluado es par.',
+  },
+  {
+    fn: 'ESIMPAR(numero)',
+    category: 'Matemáticas y Constantes',
+    params: 'ENTERO o REAL',
+    returns: 'BOOLEANO',
+    description: 'Retorna VERDADERO si el número evaluado es impar.',
+  },
+  {
+    fn: 'MOD(dividendo, divisor)',
+    category: 'Matemáticas y Constantes',
+    params: 'Numéricos',
+    returns: 'ENTERO',
+    description: 'Calcula el resto de la división entera (función canónica equivalente a %).',
+  },
+  {
+    fn: 'POTENCIA(base, exponente)',
+    category: 'Matemáticas y Constantes',
+    params: 'ENTERO o REAL',
+    returns: 'REAL',
+    description: 'Eleva base a exponente (equivalente a base ^ exponente).',
+  },
+  {
+    fn: 'RAIZCUADRADA(numero)',
+    category: 'Matemáticas y Constantes',
+    params: 'ENTERO o REAL (>= 0)',
+    returns: 'REAL',
+    description: 'Calcula la raíz cuadrada de un número no negativo.',
+  },
+  {
+    fn: 'ABS(numero)',
+    category: 'Matemáticas y Constantes',
+    params: 'ENTERO, FLOTANTE o REAL',
+    returns: 'ENTERO | FLOTANTE | REAL',
+    description: 'Retorna el valor absoluto preservando el tipo numérico original.',
+  },
+  {
+    fn: 'ALEATORIO(min, max)',
+    category: 'Matemáticas y Constantes',
+    params: 'ENTERO, ENTERO',
+    returns: 'ENTERO',
+    description: 'Retorna un número entero pseudoaleatorio entre min y max inclusive.',
+  },
+  {
+    fn: 'MIN(a, b) / MAX(a, b)',
+    category: 'Matemáticas y Constantes',
+    params: 'Numéricos',
+    returns: 'ENTERO si ambos son ENTERO; si no REAL',
+    description: 'Retorna el menor o mayor de dos números.',
+  },
+  {
+    fn: 'REDONDEAR(numero [, decimales])',
+    category: 'Matemáticas y Constantes',
+    params: 'Numérico [, ENTERO >= 0]',
+    returns: 'ENTERO (1 arg) | REAL (2 args)',
+    description: 'Redondeo half-away-from-zero (2.5 -> 3, -2.5 -> -3) o a N decimales.',
+  },
+  {
+    fn: 'PI',
+    category: 'Matemáticas y Constantes',
+    params: 'Constante matemática inmutable',
+    returns: 'REAL',
+    description: 'Constante matemática π = 3.141592653589793.',
+  },
+  {
+    fn: 'arreglo.largo',
+    category: 'Entrada / Salida y Archivos',
+    params: 'Propiedad intrínseca',
+    returns: 'ENTERO',
+    description: 'Retorna la cantidad de elementos de un vector o filas/columnas de una matriz.',
   },
 ];
 
 export const CLI_COMMANDS = [
   {
-    cmd: 'yaguarete run <archivo.yaguarete>',
-    badge: 'Ejecución Nativa',
+    cmd: 'yaguarete run <archivo.yaguarete> [--engine <vm|ast>]',
+    badge: 'Bytecode VM + AST',
     description:
-      'Ejecuta el programa directamente sobre el motor nativo en Rust (<1 ms de arranque). Admite medición de tiempo con --time (ms) y --time full (horas, minutos, segundos y milisegundos), además de --lenient.',
-    example: 'yaguarete run sort.yaguarete --time full',
+      'Ejecuta el programa sobre el motor nativo en Rust (<1 ms de arranque). Por defecto usa --engine vm (Máquina Virtual Bytecode hasta 5.72x más rápida; usa --engine ast para el intérprete tradicional). Admite --time (ms), --time full y --lenient.',
+    example: 'yaguarete run sort.yaguarete --engine vm --time full',
   },
   {
     cmd: 'yaguarete repl',
@@ -685,7 +892,7 @@ FIN`,
     highlights: [
       'Partición de 3 vías que evita degradación O(N²) con elementos repetidos',
       'Concatenación directa de vectores tipados: RETORNAR (menores + iguales + mayores)',
-      '300x más veloz en el motor nativo Rust v0.1.2 (<1 ms)',
+      'Acelerado por la Máquina Virtual Bytecode Rust v0.2.0 (<1 ms arranque)',
     ],
     code: `// Archivo: sort.yaguarete (Versión demostrativa interactiva)
 FUNCION ordenar_vector_asc_quick(vector[]: ENTERO): ENTERO[]
@@ -743,9 +950,80 @@ INICIO
     IMPRIMIR("Vector ordenado (Quicksort): " + ordenado)
 FIN`,
   },
+  {
+    id: 'builtins-v020',
+    filename: 'builtins_v020.yaguarete',
+    title: 'Novedades v0.2.0: Potencia ^, PI, Cadenas, Conversión y Matemáticas',
+    category: 'Básico',
+    complexity: 'O(N) sobre tokens | Built-ins nativas v0.2.0',
+    description:
+      'Demostración ejecutable de las nuevas funciones incorporadas en v0.2.0: operador ^, constante PI, RAIZCUADRADA, REDONDEAR, MIN/MAX, ABS, ALEATORIO, DIVIDIR_CADENA, RECORTAR y conversiones A_ENTERO/A_CADENA.',
+    highlights: [
+      'Cálculo geométrico con constante PI, potencia ^ y REDONDEAR(val, decimales)',
+      'Procesamiento de texto CSV con DIVIDIR_CADENA, RECORTAR, MAYUSCULAS y A_ENTERO',
+      'Funciones matemáticas nativas ABS, MIN, MAX, RAIZCUADRADA y ALEATORIO',
+    ],
+    code: `// Archivo: builtins_v020.yaguarete (Novedades YAGUARETÉ v0.2.0)
+INICIO
+    // 1. Geometría con constante PI, operador ^ y REDONDEAR
+    REAL radio = 5.0
+    REAL area = PI * radio ^ 2
+    IMPRIMIR("Área círculo (r=5): " + REDONDEAR(area, 2))
+    IMPRIMIR("Raíz de 16: " + RAIZCUADRADA(16) + " | 2^3^2 = " + (2 ^ 3 ^ 2))
+
+    // 2. Procesamiento de cadenas y conversión de tipos
+    CADENA entrada_csv = "  10, 25 , 15 , 50  "
+    CADENA partes[] = DIVIDIR_CADENA(RECORTAR(entrada_csv), ",")
+    ENTERO suma = 0
+    PARA (ENTERO i = 0; i < partes.largo; i++)
+        suma += A_ENTERO(RECORTAR(partes[i]))
+    FIN PARA
+    IMPRIMIR(MAYUSCULAS("suma csv: ") + A_CADENA(suma))
+
+    // 3. Matemáticas: MIN, MAX, ABS, REDONDEAR y ALEATORIO
+    IMPRIMIR("MIN(8, 3)=" + MIN(8, 3) + " | MAX(8, 3)=" + MAX(8, 3))
+    IMPRIMIR("ABS(-42)=" + ABS(-42) + " | REDONDEAR(-2.5)=" + REDONDEAR(-2.5))
+    IMPRIMIR("Dado (1..6): " + ALEATORIO(1, 6))
+FIN`,
+  },
 ];
 
 export const RELEASES_HISTORY: ReleaseEntry[] = [
+  {
+    version: '0.2.0',
+    date: '2026-11-11',
+    title: 'Máquina Virtual Bytecode (VM), Optimizaciones AST y Nuevas Funciones Nativas',
+    tag: 'Oficial',
+    highlights: [
+      {
+        section: '🚀 Máquina Virtual Bytecode (crates/yaguarete_core/src/vm/) y CLI --engine',
+        items: [
+          'Nuevo compilador de bytecode (Compiler) y máquina virtual basada en pila (VM) con conjunto compacto de instrucciones (OpCode) y pool de constantes (Chunk).',
+          'Resolución estática de variables locales a slots O(1) en tiempo de compilación, saltos directos (Jump, JumpIfFalse, Loop) y marcos de ejecución aislados (CallFrame).',
+          'Modificación e indexación in-situ de vectores sin clonado (SetIndexLocal, GetIndexLocal, LengthLocal) y selección de motor con --engine <vm|ast> (vm activado por defecto).',
+          'Optimizaciones Nivel 1 y 2 en el intérprete AST (eval.rs): tablas FxHashMap, VariableEntry unificado, reutilización de ámbitos con scope_pool y fast-paths para +=, -=, i++, i--.',
+          'Benchmark (Selection Sort 10.000 elementos, ~50M iteraciones): de 39.459,87 ms originales a 9.068,74 ms en AST optimizado (4,35x) y 6.901,29 ms en Bytecode VM (5,72x más rápido, 82,5% menos tiempo).',
+        ],
+      },
+      {
+        section: '⚡ Operador ^, Constante PI y Nuevas Built-ins (Cadenas, Conversión y Matemáticas)',
+        items: [
+          'Operador de potencia ^ (asociativo a derecha, retorno REAL), constante matemática inmutable PI y funciones POTENCIA, RAIZCUADRADA, ABS, ALEATORIO, MIN, MAX y REDONDEAR (half-away-from-zero).',
+          'Entrada interactiva LEER() / LEER(mensaje) con autoparseo a BOOLEANO, ENTERO, REAL o CADENA (no disponible en depurador DAP).',
+          'Funciones de cadena: MAYUSCULAS, MINUSCULAS, RECORTAR y DIVIDIR_CADENA(texto, separador): CADENA[].',
+          'Conversiones explícitas de tipo: A_ENTERO, A_REAL, A_FLOTANTE, A_CADENA y A_BOOLEANO.',
+        ],
+      },
+      {
+        section: '🎨 Extensión VS Code v0.2.0 y Documentación',
+        items: [
+          'SignatureHelp para todas las built-ins (nuevas y existentes), autocompletado/hover actualizado (LEER(mensaje)) y exclusión de Ir a Definición.',
+          'Gramática TextMate ampliada con scopes support.function.builtin.string, support.function.builtin.conversion, constant.language.math (PI) y MIN/MAX/REDONDEAR en math.',
+          'Paquetes oficiales v0.2.0 publicados: Instalador_Yaguarete.exe (7.92 MB), yaguarete.exe (2.75 MB), Linux ELF (2.90 MB), .deb (3.33 MB), .tar.gz (3.59 MB) y .vsix (0.76 MB).',
+        ],
+      },
+    ],
+  },
   {
     version: '0.1.2',
     date: '2026-11-05',
@@ -948,12 +1226,22 @@ export const SEARCHABLE_DOCS: DocSearchResult[] = [
     anchor: 'estructuras-control',
   },
   {
+    id: 'cli-engine-vm',
+    title: 'Máquina Virtual Bytecode (--engine vm | ast)',
+    category: 'CLI y Motor Rust',
+    summary:
+      'Motor de ejecución de alto rendimiento en Bytecode (5,72x más rápido en Selection Sort 10k). Habilitado por defecto; usa --engine ast para el intérprete tradicional.',
+    syntax: 'yaguarete run algoritmo.yaguarete --engine vm --time',
+    route: '/documentacion',
+    anchor: 'cli-comandos',
+  },
+  {
     id: 'vscode-dap',
     title: 'Depurador Interactivo DAP y Extensión VS Code',
     category: 'VS Code & DAP',
     summary:
-      'Soporte nativo de puntos de interrupción (Breakpoints), Step Over/Into/Out, inspección de estructuras y diagnóstico lsp-check en <0.2 ms.',
-    syntax: 'code --install-extension yaguarete-language-support-0.1.2.vsix --force',
+      'Soporte nativo de puntos de interrupción (Breakpoints), Step Over/Into/Out, SignatureHelp de built-ins, inspección de estructuras y diagnóstico lsp-check en <0.2 ms.',
+    syntax: 'code --install-extension yaguarete-language-support-0.2.0.vsix --force',
     route: '/vscode',
   },
 ];
