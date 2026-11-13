@@ -55,7 +55,7 @@ export interface ChecksumEntry {
   url: string;
 }
 
-export const YAGUARETE_VERSION = '0.2.0';
+export const YAGUARETE_VERSION = '0.2.1';
 export const GITHUB_REPO_URL = 'https://github.com/caidevOficial/Yaguarete_Lang';
 export const GITHUB_RELEASES_URL = 'https://github.com/caidevOficial/Yaguarete_Lang/releases';
 export const GITHUB_LATEST_RELEASE_URL = 'https://github.com/caidevOficial/Yaguarete_Lang/releases/latest';
@@ -64,18 +64,18 @@ export const DOWNLOAD_ASSETS = {
   windowsInstaller: {
     name: 'Instalador_Yaguarete.exe',
     label: 'Instalador Gráfico Todo-en-Uno (Windows x64)',
-    version: '0.2.0',
+    version: '0.2.1',
     size: '7.92 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/Instalador_Yaguarete.exe`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
-      'Instala automáticamente el binario nativo yaguarete.exe (con Bytecode VM), configura el PATH del usuario, asocia iconos .yaguarete en Windows y registra la extensión oficial en VS Code y Antigravity IDE.',
+      'Instala automáticamente el binario nativo yaguarete.exe (con Bytecode VM y semántica NULO por defecto v0.2.1), configura el PATH del usuario, asocia iconos .yaguarete en Windows y registra la extensión oficial en VS Code y Antigravity IDE.',
     silentCommand: '.\\Instalador_Yaguarete.exe --silent',
   },
   windowsBinary: {
     name: 'yaguarete.exe',
     label: 'Binario CLI Autónomo (Windows PE x64)',
-    version: '0.2.0',
+    version: '0.2.1',
     size: '2.75 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete.exe`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
@@ -84,44 +84,44 @@ export const DOWNLOAD_ASSETS = {
   linuxBinary: {
     name: 'yaguarete',
     label: 'Binario ELF Nativo (Linux x64)',
-    version: '0.2.0',
+    version: '0.2.1',
     size: '2.90 MB',
     url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description: 'Binario ELF autónomo de alta velocidad para GNU/Linux (yaguarete run, yaguarete repl, --engine vm|ast).',
   },
   linuxDeb: {
-    name: 'yaguarete_0.2.0_amd64.deb',
+    name: 'yaguarete_0.2.1_amd64.deb',
     label: 'Paquete Nativo Debian / Ubuntu (.deb)',
-    version: '0.2.0',
+    version: '0.2.1',
     size: '3.33 MB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete_0.2.0_amd64.deb`,
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete_0.2.1_amd64.deb`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Para Ubuntu, Debian, Linux Mint, Pop!_OS y Kali Linux. Instala /usr/bin/yaguarete, registra el tipo MIME application/x-yaguarete e iconos del sistema.',
-    installCommand: 'sudo apt install ./yaguarete_0.2.0_amd64.deb',
+    installCommand: 'sudo apt install ./yaguarete_0.2.1_amd64.deb',
   },
   linuxTar: {
-    name: 'yaguarete-0.2.0-linux-x86_64.tar.gz',
+    name: 'yaguarete-0.2.1-linux-x86_64.tar.gz',
     label: 'Tarball Portable Universal Linux (.tar.gz)',
-    version: '0.2.0',
+    version: '0.2.1',
     size: '3.59 MB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-0.2.0-linux-x86_64.tar.gz`,
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-0.2.1-linux-x86_64.tar.gz`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
       'Compatible con cualquier distribución (Arch, Fedora, openSUSE, Alpine). Incluye script install.sh para usuario (~/.local/bin) o global.',
-    installCommand: 'tar -xzf yaguarete-0.2.0-linux-x86_64.tar.gz && cd yaguarete-0.2.0-linux-x86_64 && ./install.sh',
+    installCommand: 'tar -xzf yaguarete-0.2.1-linux-x86_64.tar.gz && cd yaguarete-0.2.1-linux-x86_64 && ./install.sh',
   },
   vscodeExtension: {
-    name: 'yaguarete-language-support-0.2.0.vsix',
+    name: 'yaguarete-language-support-0.2.1.vsix',
     label: 'Extensión Oficial VS Code / Antigravity / Cursor (.vsix)',
-    version: '0.2.0',
+    version: '0.2.1',
     size: '~781 KB',
-    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-language-support-0.2.0.vsix`,
+    url: `${GITHUB_RELEASES_URL}/latest/download/yaguarete-language-support-0.2.1.vsix`,
     fallbackUrl: GITHUB_LATEST_RELEASE_URL,
     description:
-      'Tema de iconos "Jaguar Gamer", gramática TextMate ampliada (cadenas, conversión, matemáticas y constante PI), SignatureHelp completo para built-ins, IntelliSense prioritario, diagnósticos LSP en <0.2 ms y depurador DAP.',
-    installCommand: 'code --install-extension yaguarete-language-support-0.2.0.vsix --force',
+      'Tema de iconos "Jaguar Gamer", gramática TextMate ampliada, SignatureHelp completo para built-ins, IntelliSense prioritario, diagnósticos LSP en <0.2 ms y depurador DAP.',
+    installCommand: 'code --install-extension yaguarete-language-support-0.2.1.vsix --force',
   },
 };
 
@@ -130,42 +130,42 @@ export const RELEASE_CHECKSUMS: ChecksumEntry[] = [
     file: 'Instalador_Yaguarete.exe',
     platform: 'Windows x64',
     size: '7.92 MB',
-    sha256: '31a355d96bcb9c168c13cab7f2fa839cedee17948ed1e97713f75002417caf0e',
+    sha256: '7aec4b64154906beb5420e96d9e4dda374500ef07c4f332f5364fb482eba9368',
     url: DOWNLOAD_ASSETS.windowsInstaller.url,
   },
   {
     file: 'yaguarete.exe',
     platform: 'Windows x64 (CLI)',
     size: '2.75 MB',
-    sha256: '4c4ef97577b2134a225975d3b5adcb268a5f13f95d28179d702b1c399b988fa7',
+    sha256: 'b0cd018e355b95a50fb73f521345a0ecdc4b0a7b251ce2d581cd84e8f2c2e84b',
     url: DOWNLOAD_ASSETS.windowsBinary.url,
   },
   {
     file: 'yaguarete',
     platform: 'Linux x64 (ELF)',
     size: '2.90 MB',
-    sha256: '073bf7483221101a76992948bbe6a73f15154093ac8e86e5840fb7f96eca3998',
+    sha256: '13489c622e662b5e16627c71895b1c326327427df8178b3d7ca4c5bc8e294740',
     url: DOWNLOAD_ASSETS.linuxBinary.url,
   },
   {
-    file: 'yaguarete_0.2.0_amd64.deb',
+    file: 'yaguarete_0.2.1_amd64.deb',
     platform: 'Debian / Ubuntu',
     size: '3.33 MB',
-    sha256: 'cc8822b546ac87e75026fd3595aa7a018680d2505cf2ac3cedaf669da6cf808f',
+    sha256: '280ad29e42dd8930842d13d529ed108234aa8e4616496a16a41333ac86710f75',
     url: DOWNLOAD_ASSETS.linuxDeb.url,
   },
   {
-    file: 'yaguarete-0.2.0-linux-x86_64.tar.gz',
+    file: 'yaguarete-0.2.1-linux-x86_64.tar.gz',
     platform: 'Linux Universal',
     size: '3.59 MB',
-    sha256: '03d437f024e550c0f5b7f96109890ada0728e91dd85e3e5f096b42f4587030ee',
+    sha256: '1b49c0fe3fc10bd6c187b85d22e01a442139fac0df3a9c18565d0fef56e9e35d',
     url: DOWNLOAD_ASSETS.linuxTar.url,
   },
   {
-    file: 'yaguarete-language-support-0.2.0.vsix',
+    file: 'yaguarete-language-support-0.2.1.vsix',
     platform: 'VS Code / Cursor / Antigravity',
     size: '0.76 MB',
-    sha256: '6b7bf682c439b3cda47862ced022e87db00ace70a91c63ca9d4ee59770539bf2',
+    sha256: '8032a2ecb42da016eff0b63f62d23cb3e6c99b355b62438a505257b16346324e',
     url: DOWNLOAD_ASSETS.vscodeExtension.url,
   },
 ];
@@ -197,7 +197,7 @@ INICIO
     evaluar_alumno("Lucía Mendez", 8.5, 9.5)
 FIN`,
     expectedOutput: [
-      'Alumno: Lucía Mendez | Promedio: 9',
+      'Alumno: Lucía Mendez | Promedio: 9.0',
       'Estado: PROMOCIONADO',
     ],
   },
@@ -206,7 +206,7 @@ FIN`,
     badge: 'Estructuras Compuestas',
     title: 'Tipos compuestos ESTRUCTURA y arreglos tipados',
     description:
-      'Define registros y estructuras de datos heterogéneas mediante ESTRUCTURA ... FIN ESTRUCTURA. Almacénalas en vectores tipados y pásalas por parámetro a funciones con autocompletado por punto (.).',
+      'Define registros y estructuras de datos heterogéneas mediante ESTRUCTURA ... FIN ESTRUCTURA. Desde v0.2.1 todos los atributos inician en NULO hasta su asignación explícita, con autocompletado por punto (.).',
     code: `ESTRUCTURA Libro:
     CADENA nombre
     CADENA autor
@@ -246,7 +246,7 @@ FIN`,
     badge: 'Punteros y Tipo NULO',
     title: 'Estructuras autorreferenciales, Listas, Pilas y Colas',
     description:
-      'Soporte nativo para estructuras que se referencian a sí mismas y el literal universal NULO con protección Null-Safety en tiempo de ejecución e inicialización segura contra ciclos infinitos.',
+      'Soporte nativo para estructuras que se referencian a sí mismas y el literal universal NULO: en v0.2.1 todos los atributos se inicializan en NULO por defecto, sin auto-instanciación de sub-estructuras ni ciclos infinitos.',
     code: `INICIO
     ESTRUCTURA Nodo:
         CADENA nombre
@@ -351,7 +351,7 @@ FIN`,
 
     // Escritura de informe de salida
     ARCHIVO salida = ABRIR_ARCHIVO("resultados.txt", "escritura")
-    salida.ESCRIBIR_LINEA("INFORME FINAL YAGUARETÉ v0.2.0")
+    salida.ESCRIBIR_LINEA("INFORME FINAL YAGUARETÉ v0.2.1")
     salida.ESCRIBIR_LINEA("Total liquidado: $1940000.00")
     salida.CERRAR_ARCHIVO()
 FIN`,
@@ -360,7 +360,7 @@ FIN`,
       'Registro: ID:101 | Lucía Mendez | Analista Senior | $580000.00',
       'Registro: ID:102 | Martín Palermo | Arquitecto Rust | $720000.00',
       'Registro: ID:103 | Julieta Rossi | Ing. de Datos | $640000.00',
-      '[ARCHIVO resultados.txt] << INFORME FINAL YAGUARETÉ v0.2.0',
+      '[ARCHIVO resultados.txt] << INFORME FINAL YAGUARETÉ v0.2.1',
       '[ARCHIVO resultados.txt] << Total liquidado: $1940000.00',
     ],
   },
@@ -412,13 +412,13 @@ export const PRIMITIVE_TYPES_TABLE = [
   {
     type: 'NULO',
     equivalent: 'null / None',
-    description: 'Literal y tipo universal para ausencia de valor o puntero nulo en estructuras.',
-    example: 'Nodo actual = NULO',
+    description: 'Literal y tipo universal para ausencia de valor. Desde v0.2.1 es el valor por defecto de todos los atributos de una ESTRUCTURA.',
+    example: 'Nodo actual = NULO  |  SI (reg.id == NULO)',
   },
   {
     type: 'ESTRUCTURA',
     equivalent: 'struct',
-    description: 'Tipo de dato compuesto y heterogéneo definido por el usuario (admite autorreferencia).',
+    description: 'Tipo de dato compuesto y heterogéneo definido por el usuario (admite autorreferencia). En v0.2.1 sus atributos inician en NULO por defecto.',
     example: 'Libro libro1',
   },
   {
@@ -462,9 +462,9 @@ export const OPERATORS_TABLE = [
   },
   {
     operator: '==  !=  <  >  <=  >=',
-    operation: 'Operadores relacionales y comparación con NULO',
+    operation: 'Operadores relacionales y comparación segura con NULO (v0.2.1)',
     returnType: 'BOOLEANO',
-    example: 'SI (nodo_aux != NULO Y edad >= 18)',
+    example: 'SI (reg.id == NULO Y edad >= 18)',
   },
   {
     operator: 'Y  O  NO',
@@ -782,10 +782,10 @@ FIN`,
     category: 'Estructuras y Punteros',
     complexity: 'O(N) inserción posicional | O(1) en cabeza',
     description:
-      'Implementación canónica de una estructura contenedora Lista y un nodo autorreferencial Nodo utilizando referencias NULO y enlace dinámico de punteros.',
+      'Implementación canónica de una estructura contenedora Lista y un nodo autorreferencial Nodo utilizando la semántica NULO por defecto de v0.2.1 y enlace dinámico de punteros.',
     highlights: [
       'Definición de estructuras anidadas y autorreferenciales (Nodo siguiente)',
-      'Inicialización automática segura a NULO evitando recursión infinita',
+      'Atributos de estructuras inicializados en NULO por defecto (v0.2.1)',
       'Serialización e impresión directa del árbol de estructuras en memoria',
     ],
     code: `// Archivo: lista_enlazada.yaguarete
@@ -820,11 +820,74 @@ FIN PROCEDIMIENTO
 
 INICIO
     Lista mi_lista
+    mi_lista.cantidad = 0 // En v0.2.1+ los atributos inician en NULO por defecto
     Insertar(mi_lista, 1, "Manzana")
     Insertar(mi_lista, 2, "Pera")
     Insertar(mi_lista, 3, "Naranja")
     IMPRIMIR("Estructura completa en memoria:")
     IMPRIMIR(mi_lista)
+FIN`,
+  },
+  {
+    id: 'semaforo-cola',
+    filename: 'semaforo.yaguarete',
+    title: 'Cola FIFO de Tránsito y Semáforo (Novedades v0.2.1)',
+    category: 'Estructuras y Punteros',
+    complexity: 'O(1) encolado y desencolado FIFO | Estructuras NULO v0.2.1',
+    description:
+      'Demostración oficial de la semántica v0.2.1: gestión de colas de autos con referencias primer_auto y ultimo_auto inicializadas automáticamente en NULO sin auto-instanciación anidada ni bucles infinitos.',
+    highlights: [
+      'Atributos primer_auto y ultimo_auto inician en NULO por defecto sin auto-instanciación',
+      'Validación segura lista.ultimo_auto != NULO para enlaces directos en O(1)',
+      'Verificado con paridad completa entre la Máquina Virtual Bytecode y el evaluador AST',
+    ],
+    code: `// Archivo: semaforo.yaguarete (Canónico oficial v0.2.1)
+ESTRUCTURA AUTO:
+    ENTERO numero_auto
+    AUTO proximo_auto
+FIN ESTRUCTURA
+
+ESTRUCTURA AVENIDA:
+    CADENA semaforo
+    AUTO primer_auto
+    AUTO ultimo_auto
+FIN ESTRUCTURA
+
+PROCEDIMIENTO agregar_a_cola(lista: AVENIDA, nuevo_auto: AUTO)
+    SI (nuevo_auto == NULO)
+        RETORNAR
+    FIN SI
+
+    nuevo_auto.proximo_auto = NULO
+
+    // En v0.2.1 lista.ultimo_auto es NULO por defecto si la cola está vacía
+    SI (lista.ultimo_auto != NULO)
+        lista.ultimo_auto.proximo_auto = nuevo_auto
+        lista.ultimo_auto = nuevo_auto
+    SINO
+        lista.primer_auto = nuevo_auto
+        lista.ultimo_auto = nuevo_auto
+    FIN SI
+FIN PROCEDIMIENTO
+
+INICIO
+    AVENIDA calle_9_de_julio
+    calle_9_de_julio.semaforo = "rojo"
+
+    // Encolar 3 autos
+    PARA (ENTERO i = 1; i <= 3; i++)
+        AUTO vehiculo
+        vehiculo.numero_auto = i
+        agregar_a_cola(calle_9_de_julio, vehiculo)
+    FIN PARA
+
+    IMPRIMIR("Semáforo: " + calle_9_de_julio.semaforo)
+    IMPRIMIR("Cola en avenida:")
+    AUTO actual = calle_9_de_julio.primer_auto
+    MIENTRAS (actual != NULO)
+        IMPRIMIR("• Auto #" + actual.numero_auto)
+        actual = actual.proximo_auto
+    FIN MIENTRAS
 FIN`,
   },
   {
@@ -989,6 +1052,38 @@ FIN`,
 ];
 
 export const RELEASES_HISTORY: ReleaseEntry[] = [
+  {
+    version: '0.2.1',
+    date: '2026-11-13',
+    title: 'Inicialización en NULO por Defecto para Atributos de Estructuras e Instaladores Multiplataforma',
+    tag: 'Oficial',
+    highlights: [
+      {
+        section: '🛠️ Semántica de Estructuras y Null-Safety (R1)',
+        items: [
+          'Todos los atributos de cualquier ESTRUCTURA (tanto primitivos ENTERO, REAL, CADENA, BOOLEANO como referencias a otras estructuras) se inicializan por defecto en NULO hasta que el programador les asigne un valor explícitamente.',
+          'Eliminación completa de la auto-instanciación anidada no solicitada, previniendo bucles infinitos, recursión no controlada y desbordamientos de memoria en estructuras complejas.',
+          'Comprobación de nulos segura: soporte estricto de comparaciones directas (== NULO y != NULO) sobre atributos sin inicializar, garantizando comportamiento idéntico entre el evaluador AST y la VM de bytecode.',
+          'Vectores de estructuras (ej. Nodo v[n]): inicialización de cada elemento con sus atributos en NULO y reporte certero de errores al acceder o asignar miembros sobre referencias nulas o campos inexistentes.',
+        ],
+      },
+      {
+        section: '🐛 Corrección de Algoritmos Dinámicos (R2)',
+        items: [
+          'Compatibilidad con semaforo.yaguarete: resolución del bucle infinito derivado de la auto-instanciación de primer_auto y ultimo_auto dentro de AVENIDA, validando exitosamente colas vacías y flujo de tránsito.',
+          'Manejo de colas dinámicas (colas.yaguarete): encolado y desencolado de nodos en O(1) sin necesidad de inicializaciones defensivas manuales redundantes.',
+        ],
+      },
+      {
+        section: '⚙️ Toolchain, Pruebas y Binarios Multiplataforma (R3)',
+        items: [
+          'Sincronización integral de versión a 0.2.1 en todos los crates de Rust (crates/yaguarete_core, crates/yaguarete_cli, crates/yaguarete_installer), extensión de VS Code y metadatos Windows PE.',
+          'Batería completa de 366 pruebas automatizadas aprobadas (271 en el workspace de Rust y 95 pruebas unitarias en Python).',
+          'Publicación oficial de artefactos multiplataforma en GitHub Releases: instalador gráfico Windows x64 (7.92 MB), CLI autónomo Windows (2.75 MB), ELF Linux (2.90 MB), paquete Debian/Ubuntu (.deb 3.33 MB), tarball universal (.tar.gz 3.59 MB) y extensión VSIX (0.76 MB).',
+        ],
+      },
+    ],
+  },
   {
     version: '0.2.0',
     date: '2026-11-11',
@@ -1200,8 +1295,18 @@ export const SEARCHABLE_DOCS: DocSearchResult[] = [
     title: 'ESTRUCTURA ... FIN ESTRUCTURA (Registros y Nodos)',
     category: 'Sintaxis y Control',
     summary:
-      'Define tipos compuestos personalizados y estructuras autorreferenciales (Listas, Pilas, Colas) con inicialización automática de punteros recursivos a NULO.',
+      'Define tipos compuestos personalizados y estructuras autorreferenciales (Listas, Pilas, Colas) con inicialización de todos sus atributos en NULO por defecto (v0.2.1).',
     syntax: 'ESTRUCTURA Nodo:\n    CADENA nombre\n    Nodo proximo_nodo\nFIN ESTRUCTURA',
+    route: '/documentacion',
+    anchor: 'estructuras-datos',
+  },
+  {
+    id: 'syn-nulo-default',
+    title: 'Atributos en NULO por Defecto en Estructuras (v0.2.1)',
+    category: 'Sintaxis y Control',
+    summary:
+      'A partir de v0.2.1 todos los campos de una estructura se inicializan en NULO, permitiendo comprobaciones directas con == NULO y != NULO sin auto-instanciación anidada.',
+    syntax: 'Registro reg\nSI (reg.id == NULO)\n    reg.id = 1\nFIN SI',
     route: '/documentacion',
     anchor: 'estructuras-datos',
   },
@@ -1241,7 +1346,7 @@ export const SEARCHABLE_DOCS: DocSearchResult[] = [
     category: 'VS Code & DAP',
     summary:
       'Soporte nativo de puntos de interrupción (Breakpoints), Step Over/Into/Out, SignatureHelp de built-ins, inspección de estructuras y diagnóstico lsp-check en <0.2 ms.',
-    syntax: 'code --install-extension yaguarete-language-support-0.2.0.vsix --force',
+    syntax: 'code --install-extension yaguarete-language-support-0.2.1.vsix --force',
     route: '/vscode',
   },
 ];

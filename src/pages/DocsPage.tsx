@@ -181,29 +181,42 @@ ENTERO grupo_total[] = [1, 2] + [3, 4] // [1, 2, 3, 4]`}
           <section id="estructuras-datos" className="scroll-mt-28 space-y-5">
             <h2 className="font-display text-2xl font-bold flex items-center gap-2">
               <Link2 className="w-6 h-6 text-emerald-500" />
-              3. Estructuras Compuestas y Punteros Autorreferenciales (NULO)
+              3. Estructuras Compuestas y Atributos NULO por Defecto (v0.2.1)
             </h2>
-            <p className="text-sm text-(--text-secondary)">
-              Mediante el bloque <code className="inline-code">ESTRUCTURA ... FIN ESTRUCTURA</code> puedes definir registros compuestos y estructuras autorreferenciales (como Nodos de Listas Enlazadas, Pilas y Colas). Al instanciar una estructura autorreferencial, YAGUARETÉ inicializa automáticamente sus campos recursivos en <code className="inline-code">NULO</code> para impedir ciclos infinitos.
-            </p>
+            <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-400/20 text-xs sm:text-sm text-sky-300 leading-relaxed space-y-1">
+              <p>
+                <strong>Semántica de Inicialización en v0.2.1+:</strong> A diferencia de las variables escalares independientes (que inician en su valor neutro como <code className="inline-code">0</code>, <code className="inline-code">""</code> o <code className="inline-code">FALSO</code>), <strong>todos los atributos de cualquier estructura</strong> (<code className="inline-code">ESTRUCTURA</code>) se inicializan automáticamente en <code className="inline-code">NULO</code> por defecto hasta que el programador les asigne un valor explícitamente.
+              </p>
+              <p>
+                Esto previene la auto-instanciación automática de sub-estructuras artificiales, eliminando ciclos infinitos en listas enlazadas, colas, pilas y árboles, y permite evaluar certeramente el estado de inicialización con <code className="inline-code">== NULO</code> y <code className="inline-code">!= NULO</code>.
+              </p>
+            </div>
             <YaguareteCodeBlock
-              code={`ESTRUCTURA Nodo:
+              code={`ESTRUCTURA Registro:
+    ENTERO id
     CADENA nombre
-    Nodo proximo_nodo
+    BOOLEANO confirmado
 FIN ESTRUCTURA
 
 INICIO
-    Nodo cabeza = NULO
-    Nodo nuevo
-    nuevo.nombre = "Nodo Inicial"
-    nuevo.proximo_nodo = NULO
-    cabeza = nuevo
+    Registro reg
 
-    SI (cabeza != NULO)
-        IMPRIMIR("Cabeza activa: " + cabeza.nombre)
+    // En v0.2.1+, todos los campos inician en NULO
+    SI (reg.id == NULO Y reg.nombre == NULO)
+        IMPRIMIR("Los atributos de la estructura inician en NULO por defecto.")
     FIN SI
+
+    // Asignación explícita de campos
+    reg.id = 101
+    reg.nombre = "Jorge Luis Borges"
+    reg.confirmado = VERDADERO
+
+    IMPRIMIR("Registro cargado: " + reg)
 FIN`}
             />
+            <p className="text-xs text-(--text-muted)">
+              <strong>Nota técnica de integridad:</strong> Dado que los campos numéricos de una estructura inician en <code className="inline-code">NULO</code> y no en <code className="inline-code">0</code>, operar aritméticamente sobre ellos sin inicializarlos provocará un error de tipos en ejecución. Siempre inicializa contadores explícitamente (ej: <code className="inline-code">mi_lista.cantidad = 0</code>).
+            </p>
           </section>
 
           {/* 5. Operadores */}
@@ -213,7 +226,7 @@ FIN`}
               4. Operadores Aritméticos, Potencia (^), División Entera (//) y Módulo (%)
             </h2>
             <p className="text-sm text-(--text-secondary)">
-              El analizador léxico de YAGUARETÉ desambigua inteligentemente <code className="inline-code">//</code> (división entera vs comentario) e incorpora en <code className="inline-code">v{YAGUARETE_VERSION}</code> el operador de potencia <code className="inline-code">^</code> (asociativo a derecha y con resultado <code className="inline-code">REAL</code>).
+              El analizador léxico de YAGUARETÉ desambigua inteligentemente <code className="inline-code">//</code> (división entera vs comentario) e incorpora desde <code className="inline-code">v0.2.0</code> el operador de potencia <code className="inline-code">^</code> (asociativo a derecha y con resultado <code className="inline-code">REAL</code>).
             </p>
             <div
               tabIndex={0}

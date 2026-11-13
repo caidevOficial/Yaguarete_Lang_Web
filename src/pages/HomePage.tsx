@@ -118,7 +118,7 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-5 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/20 border border-sky-400/30 text-xs font-semibold text-sky-300">
                 <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                Bytecode VM &amp; Nuevas Built-ins • v{YAGUARETE_VERSION}
+                Estructuras con NULO por defecto • v{YAGUARETE_VERSION}
               </div>
 
               <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
@@ -222,7 +222,7 @@ export const HomePage: React.FC = () => {
               </div>
               <h2 className="font-display text-lg font-bold">Documentación</h2>
               <p className="text-sm text-(--text-secondary)">
-                Referencia completa del sistema de tipos (<code className="inline-code">FLOTANTE</code> vs <code className="inline-code">REAL</code>), estructuras autorreferenciales con <code className="inline-code">NULO</code> y manejo de archivos.
+                Referencia completa del sistema de tipos (<code className="inline-code">FLOTANTE</code> vs <code className="inline-code">REAL</code>), estructuras autorreferenciales con <code className="inline-code">NULO</code> por defecto (v0.2.1) y manejo de archivos.
               </p>
             </div>
             <Link
@@ -274,7 +274,7 @@ export const HomePage: React.FC = () => {
         <InteractivePlayground compact={true} />
       </section>
 
-      {/* RUST ENGINE & BYTECODE VM v0.2.0 BENCHMARK & FEATURES GRID */}
+      {/* RUST ENGINE & BYTECODE VM BENCHMARK & FEATURES GRID */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left: Performance Metrics */}
@@ -287,7 +287,7 @@ export const HomePage: React.FC = () => {
                 Rendimiento Nativo y Bytecode VM
               </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                El núcleo <code className="text-sky-300">yaguarete_core</code> incorpora en <code className="text-sky-300">v{YAGUARETE_VERSION}</code> un compilador a bytecode y Máquina Virtual basada en pila (<code className="text-sky-300">--engine vm</code>) con slots locales O(1) e indexación in-situ sin clonado, reduciendo un <strong>82,5%</strong> el tiempo en algoritmos intensivos.
+                El núcleo <code className="text-sky-300">yaguarete_core</code> incorpora desde <code className="text-sky-300">v0.2.0</code> su compilador a bytecode y Máquina Virtual basada en pila (<code className="text-sky-300">--engine vm</code>) reduciendo un <strong>82,5%</strong> el tiempo en algoritmos intensivos, y en <code className="text-sky-300">v{YAGUARETE_VERSION}</code> paridad AST/VM en inicialización en <code className="text-sky-300">NULO</code> por defecto.
               </p>
 
               <div className="grid grid-cols-2 gap-4 pt-2">
@@ -311,7 +311,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-              <span>110 tests Rust &amp; 83 tests Python</span>
+              <span>366 tests (271 Rust + 95 Python)</span>
               <Link to="/novedades" className="text-cyan-400 hover:underline font-semibold">
                 Ver Changelog v{YAGUARETE_VERSION} →
               </Link>

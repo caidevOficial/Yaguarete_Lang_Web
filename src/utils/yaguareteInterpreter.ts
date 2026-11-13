@@ -44,7 +44,7 @@ const VIRTUAL_FILES: Record<string, string[]> = {
     'ID:103 | Julieta Rossi | Ing. de Datos | $640000.00',
   ],
   'datos.txt': [
-    'Línea 1: Configuración inicial YAGUARETÉ v0.2.0',
+    'Línea 1: Configuración inicial YAGUARETÉ v0.2.1',
     'Línea 2: Máquina Virtual Bytecode Rust activada (<1 ms)',
     'Línea 3: Fin de registro de prueba',
   ],
@@ -310,10 +310,8 @@ export function runYaguareteCode(
     if (!def) return null;
     const obj: any = { __structName: sName };
     for (const f of def.fields) {
-      if (f.type === 'ENTERO' || f.type === 'REAL' || f.type === 'FLOTANTE') obj[f.name] = 0;
-      else if (f.type === 'CADENA' || f.type === 'CARACTER') obj[f.name] = '';
-      else if (f.type === 'BOOLEANO') obj[f.name] = false;
-      else obj[f.name] = null; // Self-referential or nested struct defaults to NULO
+      // En v0.2.1 todos los atributos de ESTRUCTURA se inicializan en NULO por defecto
+      obj[f.name] = null;
     }
     return obj;
   }
@@ -367,12 +365,15 @@ export function runYaguareteCode(
           case '!=':
             return left !== right;
           case '<=':
-            return left <= right;
           case '>=':
-            return left >= right;
           case '<':
-            return left < right;
           case '>':
+            if (left === null || right === null) {
+              throw new Error(`PseudoRuntimeError: Operador '${op}' no compatible con tipo 'Nulo'.`);
+            }
+            if (op === '<=') return left <= right;
+            if (op === '>=') return left >= right;
+            if (op === '<') return left < right;
             return left > right;
         }
       }
@@ -390,8 +391,14 @@ export function runYaguareteCode(
         if (typeof left === 'string' || typeof right === 'string') {
           return formatYaguareteValue(left) + formatYaguareteValue(right);
         }
+        if (left === null || right === null) {
+          throw new Error("PseudoRuntimeError: Operador '+' no compatible con tipos 'Nulo' y numérico.");
+        }
         return Number(left) + Number(right);
       } else {
+        if (left === null || right === null) {
+          throw new Error("PseudoRuntimeError: Operador '-' no compatible con tipo 'Nulo'.");
+        }
         return Number(left) - Number(right);
       }
     }
@@ -399,8 +406,13 @@ export function runYaguareteCode(
     // Multiplication, Division, Integer Division (//), Modulo (%)
     const mulDiv = splitTopLevelMulDiv(s);
     if (mulDiv) {
-      const left = Number(evalExpr(mulDiv.left, scope));
-      const right = Number(evalExpr(mulDiv.right, scope));
+      const leftVal = evalExpr(mulDiv.left, scope);
+      const rightVal = evalExpr(mulDiv.right, scope);
+      if (leftVal === null || rightVal === null) {
+        throw new Error(`PseudoRuntimeError: Operador '${mulDiv.op}' no compatible con tipo 'Nulo'.`);
+      }
+      const left = Number(leftVal);
+      const right = Number(rightVal);
       if (mulDiv.op === '*') return left * right;
       if (mulDiv.op === '/') {
         if (right === 0) throw new Error('PseudoRuntimeError: División por cero.');
@@ -429,6 +441,9 @@ export function runYaguareteCode(
     if (powSplit) {
       const left = evalExpr(powSplit.left, scope);
       const right = evalExpr(powSplit.right, scope);
+      if (left === null || right === null) {
+        throw new Error("PseudoRuntimeError: Operador '^' no compatible con tipo 'Nulo'.");
+      }
       if (typeof left !== 'number' || typeof right !== 'number') {
         throw new Error("PseudoRuntimeError: Operador '^' solo compatible con números.");
       }
@@ -697,6 +712,11 @@ export function runYaguareteCode(
         if (prop === 'largo' && (Array.isArray(current) || typeof current === 'string')) {
           current = current.length;
         } else {
+          if (typeof current === 'object' && current.__structName && !(prop in current)) {
+            throw new Error(
+              `PseudoRuntimeError: La estructura '${current.__structName}' no tiene el campo '${prop}'`
+            );
+          }
           current = current[prop];
         }
       }
@@ -750,6 +770,11 @@ export function runYaguareteCode(
             `PseudoRuntimeError: Intento de acceder al campo '${prop}' en una referencia nula (NULO)`
           );
         }
+        if (typeof current === 'object' && current.__structName && !(prop in current)) {
+          throw new Error(
+            `PseudoRuntimeError: La estructura '${current.__structName}' no tiene el campo '${prop}'`
+          );
+        }
         current = current[prop];
       }
     }
@@ -762,7 +787,12 @@ export function runYaguareteCode(
       const prop = lastTok.slice(1);
       if (current === null || current === undefined) {
         throw new Error(
-          `PseudoRuntimeError: Intento de asignar al campo '${prop}' en una referencia nula (NULO)`
+          `PseudoRuntimeError: Intento de asignar el campo '${prop}' en una referencia nula (NULO)`
+        );
+      }
+      if (typeof current === 'object' && current.__structName && !(prop in current)) {
+        throw new Error(
+          `PseudoRuntimeError: La estructura '${current.__structName}' no tiene el campo '${prop}'`
         );
       }
       current[prop] = newVal;

@@ -22,7 +22,7 @@ export const PlaygroundPage: React.FC = () => {
           </h1>
         </div>
         <p className="text-sm text-(--text-secondary) max-w-xl">
-          Escribe y ejecuta programas completos <code className="inline-code">.yaguarete</code> con soporte de <code className="inline-code">v{YAGUARETE_VERSION}</code> (potencia <code className="inline-code">^</code>, <code className="inline-code">PI</code>, <code className="inline-code">LEER()</code>, cadenas, conversión y matemáticas), estructuras, punteros <code className="inline-code">NULO</code>, matrices, división entera <code className="inline-code">//</code> y archivos virtuales, o cambia a <code className="inline-code">yaguarete repl</code>.
+          Escribe y ejecuta programas completos <code className="inline-code">.yaguarete</code> con soporte de <code className="inline-code">v{YAGUARETE_VERSION}</code> (atributos de estructura en <code className="inline-code">NULO</code> por defecto, potencia <code className="inline-code">^</code>, constante <code className="inline-code">PI</code>, <code className="inline-code">LEER()</code>, cadenas, conversión y matemáticas), estructuras dinámicas, matrices, división entera <code className="inline-code">//</code> y archivos virtuales, o cambia a <code className="inline-code">yaguarete repl</code>.
         </p>
       </div>
 

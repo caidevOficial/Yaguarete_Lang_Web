@@ -26,7 +26,7 @@ export const VSCodePage: React.FC = () => {
   const features = [
     {
       icon: Palette,
-      title: 'Tema de Iconos "Jaguar Gamer" & Gramática TextMate v0.2.0',
+      title: 'Tema de Iconos "Jaguar Gamer" & Gramática TextMate v0.2.1',
       description:
         'Iconos dedicados azul eléctrico para módulos .yaguarete, scopes dedicados para cadenas, conversión, matemáticas (MIN, MAX, REDONDEAR) y constante PI, además de verde menta/turquesa para tipos ESTRUCTURA sin colisiones con built-ins.',
     },
@@ -34,7 +34,7 @@ export const VSCodePage: React.FC = () => {
       icon: Sparkles,
       title: 'IntelliSense Prioritario Multi-Módulo y SignatureHelp Completo',
       description:
-        'Autocompletado instantáneo y hover para todas las funciones v0.2.0 (LEER(mensaje), DIVIDIR_CADENA, A_ENTERO, PI, etc.) con ordenamiento prioritario (sortText = 0_) y ayuda de firma en tiempo real para todas las built-ins al escribir ( o ,.',
+        'Autocompletado instantáneo y hover para todas las funciones v0.2.x (LEER(mensaje), DIVIDIR_CADENA, A_ENTERO, PI, etc.) con ordenamiento prioritario (sortText = 0_) y ayuda de firma en tiempo real para todas las built-ins al escribir ( o ,.',
     },
     {
       icon: Zap,
